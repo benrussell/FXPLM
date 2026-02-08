@@ -4,6 +4,7 @@
 
 #include "XPLM.h"
 
+#include <filesystem>
 #include <iostream>
 #include "glue_Menus.h"
 

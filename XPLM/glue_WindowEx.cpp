@@ -4,6 +4,8 @@
 
 #include "glue_WindowEx.h"
 
+#include <cstring>
+
 //#include <iostream>
 
 glue_WindowEx::glue_WindowEx(XPLMCreateWindow_t *params) {

@@ -2,9 +2,12 @@ cmake_minimum_required(VERSION 3.17)
 project(XPLM VERSION 1.0.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 20)
 
+
+IF( APPLE )
 # Universal build (optional)
 #set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "")
 set(CMAKE_OSX_ARCHITECTURES "arm64" CACHE STRING "")
+ENDIF( APPLE )
 
 
 find_package(OpenGL REQUIRED)
@@ -57,10 +60,10 @@ ENDIF( APPLE )
 
 
 # Linux
-#IF(CMAKE_SYSTEM_NAME STREQUAL Linux)
-#    set(CMAKE_CXX_FLAGS "-O0 -rdynamic -ldl")
-#
-#ENDIF(CMAKE_SYSTEM_NAME STREQUAL Linux)
+IF(CMAKE_SYSTEM_NAME STREQUAL Linux)
+    set(CMAKE_CXX_FLAGS "-O0 -rdynamic -ldl -fPIC")
+
+ENDIF(CMAKE_SYSTEM_NAME STREQUAL Linux)
 
 
 
@@ -202,6 +205,10 @@ add_library(XPLM SHARED ${SRCS} ${PUBLIC_HEADERS})
 
 target_link_libraries( ${PROJECT_NAME}  ${USE_LIBS} )
 
+
+
+
+IF( APPLE )
 set_target_properties(XPLM PROPERTIES
         FRAMEWORK TRUE
         # Bundle / versioning
@@ -233,6 +240,8 @@ target_include_directories(XPLM
 install(TARGETS XPLM
         FRAMEWORK DESTINATION "/Users/br/XP12_Libs/Resources/plugins"
         )
+
+ENDIF( APPLE )
 
 
 # Example build:
