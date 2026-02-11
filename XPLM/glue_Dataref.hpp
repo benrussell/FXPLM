@@ -22,4 +22,6 @@
 #ifndef GLUE_DATAREF_HPP
 #define GLUE_DATAREF_HPP
 
+// seems the logic for this is still in xp_dref.cpp
+
 #endif //GLUE_DATAREF_HPP

@@ -156,6 +156,8 @@ set(SRCS
         XPLM/XPLMUtilities.h
         XPLM/XPLM.cpp
 
+        XPLM/DataRefsTxtParse.h XPLM/DataRefsTxtParse.cpp
+
         XPLM/glue_Plugin.hpp
         XPLM/glue_Dataref.hpp
         XPLM/glue_DrawCallbackHost.hpp
