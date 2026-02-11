@@ -159,10 +159,11 @@ set(SRCS
         XPLM/glue_Plugin.hpp
         XPLM/glue_Dataref.hpp
         XPLM/glue_DrawCallbackHost.hpp
-        XPLM/glue_FBO.hpp
+        XPLM/glue_FBO.hpp XPLM/glue_FBO.cpp
         XPLM/glue_AvionicsHost.hpp
         XPLM/glue_CmdCustom.hpp
         XPLM/glue_Plugin.cpp
+
         XPLM/XPLMMenus.cpp
         XPLM/XPLMMenus.h
         XPLM/XPLMNavigation.cpp
@@ -176,7 +177,10 @@ set(SRCS
         XPLM/XPLMMap.cpp
         XPLM/XPLMMap.h
 
-        XPLM/glue_WindowEx.cpp XPLM/glue_WindowEx.h XPLM/glue_Menus.cpp XPLM/glue_Menus.h)
+        XPLM/glue_WindowEx.cpp XPLM/glue_WindowEx.h
+        XPLM/glue_Menus.cpp XPLM/glue_Menus.h
+
+        )
 
 
 SUBDIRS(
