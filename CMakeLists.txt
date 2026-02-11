@@ -250,6 +250,25 @@ install(TARGETS XPLM
 ENDIF( APPLE )
 
 
+
+
+
+IF(CMAKE_SYSTEM_NAME STREQUAL Linux)
+    set_target_properties(XPLM PROPERTIES
+            OUTPUT_NAME "XPLM_64"
+            PREFIX ""
+    )
+
+ENDIF(CMAKE_SYSTEM_NAME STREQUAL Linux)
+
+
+
+
+
+
+
+
+
 # Example build:
 # cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 # cmake --build build --config Release
