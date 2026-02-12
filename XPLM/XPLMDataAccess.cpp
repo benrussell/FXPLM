@@ -108,11 +108,12 @@ int XPLMGetDatavi( XPLMDataRef dref_h, int* buffer, int offset, int count ){
 
 void XPLMGetDatavf( XPLMDataRef dref_h, float* buffer, int offset, int count ){
 
-//    std::cout << "XPLMGetDatavf\n";
-//    std::cout << " dref_h " << dref_h << "\n";
-//    std::cout << " buffer " << buffer << "\n";
-//    std::cout << " offset " << offset << "\n";
-//    std::cout << " count  " << count << "\n";
+    FXPLM_DebugLogHeader("XPLMGetDatavf" );
+    std::cout << " dref_h:" << dref_h;
+    std::cout << " dref_h->name:" << dref_h->drefName;
+    std::cout << " buffer:" << buffer;
+    std::cout << " offset:" << offset;
+    std::cout << " count:" << count;
 
     if( dref_h ){
 
@@ -236,8 +237,7 @@ void XPLMSetDatai( XPLMDataRef dref_h, int new_value ){
 
 XPLMDataRef XPLMFindDataRef( const char* dref_name ){
 
-    FXPLM_DebugLogHeader("XPLMFindDataRef");
-    std::cout << " dref:[" << dref_name << "]";
+    // we only log 404 events
 
     auto dr = dref_factory::findDref( dref_name ); //can be nullptr ret
     if( dr ) {
@@ -247,13 +247,18 @@ XPLMDataRef XPLMFindDataRef( const char* dref_name ){
         dr->m_vecPluginConsumers.push_back(global_target_plugin);
         global_target_plugin->m_vecDrefs.push_back(dr);
 
-    }else{
-        std::cout << " 404";
+        return dr;
 
+    }else{
+        FXPLM_DebugLogHeader("XPLMFindDataRef");
+        std::cout << " dref:[" << dref_name << "]";
+        std::cout << " 404";
+        std::cout << "\n";
+
+        return nullptr;
     }
 
-    std::cout << "\n";
-    return dr;
+
 
 }
 
@@ -280,17 +285,44 @@ void XPLMRegisterDataAccessor(
     {
 
 		FXPLM_DebugLogHeader("XPLMRegisterDataAccessor");
+        std::cout<<" dr_name:[" << inDataName << "]";
+        std::cout << " type_id:" << inDataType;
+        std::cout << " write:" << inIsWritable;
+        std::cout << "\n\t";
+        std::cout << " f_r_int:" << inReadInt;
+        std::cout << " f_w_int:" << inWriteInt;
+        std::cout << " f_r_float:" << inReadFloat;
+        std::cout << " f_w_float:" << inWriteFloat;
+        std::cout << " f_r_dbl:" << inReadDouble;
+        std::cout << " f_w_dbl:" << inWriteDouble;
+        std::cout << "\n\t";
 
-        std::cout<<" dr_name:[" << inDataName << "]\n";
+        std::cout << " f_r_int[]:" << inReadIntArray;
+        std::cout << " f_w_int[]:" << inWriteIntArray;
+        std::cout << " f_r_float[]:" << inReadFloatArray;
+        std::cout << " f_w_float[]:" << inWriteFloatArray;
+        std::cout << " f_r_data:" << inReadData;
+        std::cout << " f_w_data:" << inWriteData;
+    std::cout << "\n\t";
+
+    std::cout << " r_refcon:" << inReadRefcon;
+        std::cout << " w_refcon:" << inWriteRefcon;
+        std::cout << "\n\t";
+
+
+
         auto dr = dref_factory::saveDref(inDataName, "custom");
 
         if( dr ){
         	dr->m_vecPluginConsumers.push_back( global_target_plugin );
 			global_target_plugin->m_vecDrefs.push_back(dr);
+            std::cout << " ret:" << dr;
+            std::cout << "\n";
+
         }else{
-			FXPLM_DebugLogHeader("XPLMRegisterDataAccessor");
-			std::cout << " 404:[" << inDataName << "]";
-			std::cout << "\n";
+			//FXPLM_DebugLogHeader("XPLMRegisterDataAccessor");
+			//std::cout << " [" << inDataName << "]";
+            std::cout << " 500: dref_factory::saveDref() ret nullptr.\n";
         }
 
         //throw std::runtime_error("custom drefs not supported. :(");
