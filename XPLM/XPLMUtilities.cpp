@@ -122,6 +122,10 @@ void FXPLM_SendMessageToPlugin( int from, int to, int message, void* param ){
     if ( to == 0 ) {
         //msg is to host
         std::cout << " * msg is to host\n";
+        if ( message == 0x1000000 ) {
+            std::cout << " * msg is ADD_DREF\n";
+            std::cout << " param_as_string:[" << (const char*)param << "]\n";
+        }
         return;
     }
 
