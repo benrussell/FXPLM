@@ -198,6 +198,7 @@ XPLM_API void FXPLM_Init( char* name, char* sig, char* desc ) {
 	// const std::string cwd = fs::current_path();
 	// std::cout << "FXPLM/ working folder: [" << cwd << "]\n";
 
+	#if APL
 	{
 		namespace fs = std::filesystem;
 		fs::current_path("../../..");
@@ -207,7 +208,17 @@ XPLM_API void FXPLM_Init( char* name, char* sig, char* desc ) {
 
 		fxplm_global_sys_folder = cwd;
 	}
+	#else
+	{
+		namespace fs = std::filesystem;
+		//fs::current_path("../../..");
 
+		const std::string cwd = fs::current_path();
+		std::cout << "FXPLM/ working folder: [" << cwd << "]\n";
+
+		fxplm_global_sys_folder = cwd;
+	}
+	#endif
 
 	XPHost::m_ptrTimer = new Timer();
 	XPHost::m_ptrTimer->start();
@@ -588,6 +599,13 @@ XPLM_API void* FXPLM_DrefPoolPtr() {
 
 
 
+
+
+XPLM_API xp_dref* FXPLM_DrefCreate( const char* dref_name ) {
+	FXPLM_DebugLogHeader("FXPLM_DrefCreate");
+	std::cout << " dref_name:[" << dref_name <<"]\n";
+	return dref_factory::saveDref( dref_name, "FXPLM_DrefCreate", false );
+}
 
 
 

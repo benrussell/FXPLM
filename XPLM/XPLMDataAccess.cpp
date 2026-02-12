@@ -237,29 +237,22 @@ void XPLMSetDatai( XPLMDataRef dref_h, int new_value ){
 XPLMDataRef XPLMFindDataRef( const char* dref_name ){
 
     FXPLM_DebugLogHeader("XPLMFindDataRef");
-    std::cout << " dref:[" << dref_name << "]\n";
+    std::cout << " dref:[" << dref_name << "]";
 
-    const std::string search_name = std::string(dref_name);
-    xp_dref *dr = dref_factory::findDref( search_name );
-
-    if ( dr ) {
+    auto dr = dref_factory::findDref( dref_name ); //can be nullptr ret
+    if( dr ) {
         if ( global_target_plugin == nullptr ) {
-            std::cout<<"FXPLM/ XPLMFindDataRef: global_target_plugin is nullptr. :(  ------------------------\n";
             throw std::runtime_error("global_target_plugin is nullptr.");
         }
         dr->m_vecPluginConsumers.push_back(global_target_plugin);
         global_target_plugin->m_vecDrefs.push_back(dr);
 
-    }else
-    {
-        FXPLM_DebugLogHeader("XPLMFindDataRef");
-        std::cout << " 404:[" << dref_name << "]";
-        std::cout << "\n";
+    }else{
+        std::cout << " 404";
 
-        //global_target_plugin->m_plugin_is_enabled = false;
-        // global_target_plugin->call_disable();
     }
 
+    std::cout << "\n";
     return dr;
 
 }

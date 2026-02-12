@@ -109,6 +109,8 @@ XPLM_API void* FXPLM_PluginInstPtr( int plugin_id );
 
 XPLM_API void* FXPLM_DrefPoolPtr();
 
+XPLM_API xp_dref* FXPLM_DrefCreate( const char* dref_name );
+
 
 
 // README: DO NOT ANNOTATE WITH XPLM_API or other decorators or the link will break.
