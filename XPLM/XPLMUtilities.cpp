@@ -182,9 +182,9 @@ XPLM_API int FXPLM_CommandCountForPluginID( int plugin_id ) {
 
 XPLMCommandRef XPLMFindCommand(
         const char *         inName){
-//    std::cout<<"FXPLM/ XPLMFindCommand:[" << inName << "]\n";
 
-    
+    //we only report 404s
+
     for( const auto& p: XPHost::m_vecPlugins ){
         for( const auto& cmd: p->m_vecCommands ){
             if( cmd->m_name == inName ){
@@ -212,10 +212,13 @@ XPLMCommandRef XPLMFindCommand(
 #endif
 #undef FXPLM_AUTO_CMD_CREATE
 
-#define FXPLM_REPORT_CMD_404 0
+#define FXPLM_REPORT_CMD_404 1
 #if FXPLM_REPORT_CMD_404
 	//FIXME: report querying plugin
-    std::cout << "FXPLM/ XPLMFindCommand: 404: [" + std::string(inName) + "]\n";
+    //std::cout << "FXPLM/ XPLMFindCommand: 404: [" + std::string(inName) + "]\n";
+    FXPLM_DebugLogHeader("XPLMFindCommand");
+    std::cout << " name:[" << inName << "]";
+    std::cout << " 404\n";
 #endif
 #undef FXPLM_REPORT_CMD_404
 
