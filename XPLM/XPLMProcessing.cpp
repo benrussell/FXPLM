@@ -82,9 +82,8 @@ XPLMFlightLoopID XPLMCreateFlightLoop( XPLMCreateFlightLoop_t* loop_params ){
 
 float XPLMGetElapsedTime(){
     // This is probably slightly different from X-Plane behaviour.
-    // The X-Plane timer has "feature" where it stalls during various operations.
+    // The X-Plane timer has a "feature" where it stalls during various operations.
     FXPLM_DebugLogHeader("XPLMGetElapsedTimer");
-    std::cout << "\n";
 
 	static XPLMDataRef dr = nullptr;
 	if ( ! dr ) {
@@ -168,5 +167,17 @@ float XPLMGetElapsedTime(){
 
 
 
+XPLM_API void       XPLMSetFlightLoopCallbackInterval(
+						 XPLMFlightLoop_f     inFlightLoop,
+						 float                inInterval,
+						 int                  inRelativeToNow,
+						 void *               inRefcon) {
 
+	FXPLM_DebugLogHeader("BROKEN/ XPLMSetFlightLoopCallbackInterval");
+	std::cout << " flight_loop:" << inFlightLoop;
+	std::cout << " interval:" << inInterval;
+	std::cout << " rel_to_now:" << inRelativeToNow;
+	std::cout << " refcon:" << inRefcon;
+
+}
 

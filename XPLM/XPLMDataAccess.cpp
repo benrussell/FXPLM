@@ -357,7 +357,7 @@ XPLMDataRef XPLMRegisterDataAccessor(
 
 void XPLMUnregisterDataAccessor( XPLMDataRef inDataRef ){
 
-FXPLM_DebugLogHeader("NOP/ XPLMUnregisterDataAccessor"); //FIXME:
+    FXPLM_DebugLogHeader("NOP/ XPLMUnregisterDataAccessor"); //FIXME:
 	std::cout << "\n";
 
 };
@@ -470,5 +470,14 @@ XPLM_API int        XPLMUnshareData(
 
 
 
+int        XPLMCanWriteDataRef(
+                         XPLMDataRef          inDataRef) {
 
+    FXPLM_DebugLogHeader("HC/ XPLMCanWriteDataRef");
+    std::cout<<" drh:[" << inDataRef << "]";
+    std::cout<<" hc_ret:0";
+    std::cout << "\n";
+
+    return 0;
+}
 

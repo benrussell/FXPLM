@@ -528,3 +528,12 @@ XPLM_API int        XPLMSaveDataFile(
 
 
 
+XPLM_API void       XPLMGetPrefsPath(
+                         char *               outPrefsPath) {
+    FXPLM_DebugLogHeader("HC/ XPLMGetPrefsPath");
+    std::cout << " buff:" << outPrefsPath;
+    std::cout << " hc_ret:" << "/tmp/xp_prefs.txt";
+    std::cout << "\n";
+
+    snprintf( outPrefsPath, 512, "/tmp/xp_prefs.txt" );
+}

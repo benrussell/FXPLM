@@ -61,4 +61,13 @@ XPLM_API void       XPLMUnregisterFlightLoopCallback(
 						 void *               inRefcon);
 
 
+
+XPLM_API void       XPLMSetFlightLoopCallbackInterval(
+						 XPLMFlightLoop_f     inFlightLoop,
+						 float                inInterval,
+						 int                  inRelativeToNow,
+						 void *               inRefcon);
+
+
+
 #endif /* XPLMProcessing_hpp */

@@ -106,5 +106,8 @@ XPLM_API void       XPLMSetActiveAircraftCount(
 
 
 
-
+XPLM_API void       XPLMSetUsersAircraft(
+                         const char *         inAircraftPath) {
+    throw std::runtime_error("FXPLM/ NOP/ XPLMSetUsersAircraft");
+}
 

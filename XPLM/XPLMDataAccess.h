@@ -135,5 +135,8 @@ XPLM_API int        XPLMUnshareData(
 						 void *               inNotificationRefcon);
 
 
+XPLM_API int        XPLMCanWriteDataRef(
+						 XPLMDataRef          inDataRef);
+
 
 #endif /* XPLMDataAccess_hpp */

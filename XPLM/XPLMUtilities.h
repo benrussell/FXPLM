@@ -153,7 +153,8 @@ XPLM_API int        XPLMSaveDataFile(
 
 
 
-
+XPLM_API void       XPLMGetPrefsPath(
+                         char *               outPrefsPath);
 
 
 #endif /* XPLMUtilities_hpp */

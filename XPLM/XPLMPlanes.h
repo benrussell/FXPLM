@@ -58,7 +58,8 @@ XPLM_API void       XPLMSetActiveAircraftCount(
 						 int                  inCount);
 
 
-
+XPLM_API void       XPLMSetUsersAircraft(
+						 const char *         inAircraftPath);
 
 
 #endif /* XPLMPlanes_hpp */
