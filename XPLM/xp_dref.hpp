@@ -106,7 +106,7 @@ public:
 
 	static xp_dref* findDref( const std::string& name );
 
-	static xp_dref* saveDref( const std::string& name, const std::string type, bool try_find=true );
+	static xp_dref* saveDref( const std::string& name, std::string type, bool try_find=true );
 
 	static void init();
 

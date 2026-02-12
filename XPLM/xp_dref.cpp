@@ -103,20 +103,8 @@ xp_dref* dref_factory::findDref( const std::string& name ){
 		}
 	}
 
-#define FXPLM_AUTO_CREATE_DREF_FOR_FIND_CALL 0
-#if FXPLM_AUTO_CREATE_DREF_FOR_FIND_CALL
-	//FIXME: this seems to fix the malloc-errors on exit that weve been seeing since the FXPLM split
-	// this will also cause XLua to fail because it attempts to create/find
-	// to determine dref ownership / exclusivity
-	std::cout << "  findDref: dref create ["<< name <<"]\n";
-	auto new_dr = saveDref( name, "auto_create", false );
-	return new_dr;
-#else
 	//std::cerr << "FXPLM/dref_factory.findDref(" << name << "): 404\n";
 	return nullptr;
-#endif
-#undef FXPLM_AUTO_CREATE_DREF_FOR_FIND_CALL
-
 
 }; //findDref
 
