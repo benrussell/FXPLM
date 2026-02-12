@@ -317,8 +317,12 @@ FXPLM_DebugLogHeader("NOP/ XPLMUnregisterDataAccessor"); //FIXME:
 
 
 
-
 int XPLMIsDataRefGood( XPLMDataRef dref ) {
+    // This fn checks to see if the dref is orphaned.
+    // https://developer.x-plane.com/sdk/XPLMDataAccess/#XPLMIsDataRefGood
+    // ret 1 for valid dref - not orphaned.
+    // ret 0 for orphaned.
+
     std::cout<<"FXPLM/ XPLMIsDatarefGood - doesnt track dref ownership\n"; //FIXME:
     return 1;
 }
