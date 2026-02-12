@@ -38,6 +38,9 @@ extern Plugin* global_target_plugin;
 
 void XPLMSetDatavf( XPLMDataRef dref_h, float* new_values, int offset, int count ){
 
+    FXPLM_DebugLogHeader("XPLMSetDatavf");
+    std::cout << "\n";
+
     if( dref_h ){
         auto dr = reinterpret_cast<xp_dref*>(dref_h);
         dr->setFloat( new_values[0] );
@@ -48,6 +51,9 @@ void XPLMSetDatavf( XPLMDataRef dref_h, float* new_values, int offset, int count
 
 
 void XPLMSetDatavi( XPLMDataRef dref_h, int* new_values, int offset, int count ){
+
+    FXPLM_DebugLogHeader("XPLMSetDatavi");
+    std::cout << "\n";
 
     if( dref_h ){
         auto dr = reinterpret_cast<xp_dref*>(dref_h);
@@ -61,14 +67,17 @@ void XPLMSetDatavi( XPLMDataRef dref_h, int* new_values, int offset, int count )
 
 
 void XPLMSetDataf( XPLMDataRef dref_h, float new_value ){
-//    std::cout << "!XPLMSetDataf\n"; //FIXME
+
+    // FXPLM_DebugLogHeader("XPLMSetDataf");
+    // std::cout << " dref_h:" << dref_h;
+    // std::cout << " dref_h->name:" << dref_h->drefName;
+    // std::cout << " val:" << new_value;
+    // std::cout << "\n";
 
     //if( dref_h ){
         auto dr = reinterpret_cast<xp_dref*>(dref_h);
         dr->setFloat( new_value );
-
     //}
-
 
 }
 
@@ -76,9 +85,7 @@ void XPLMSetDataf( XPLMDataRef dref_h, float new_value ){
 
 int XPLMGetDatavi( XPLMDataRef dref_h, int* buffer, int offset, int count ){
 
-	//XP11 sample values: 0,0,0,0
-
-#if 0 //FIXME: log muted
+#if 1
     FXPLM_DebugLogHeader("HC/ XPLMGetDatavi");
     std::cout << " dref_h:" << dref_h;
 	std::cout << " buff:" << buffer;
@@ -87,18 +94,14 @@ int XPLMGetDatavi( XPLMDataRef dref_h, int* buffer, int offset, int count ){
 	std::cout << "\n";
 #endif
 
-//	auto drh = (xp_dref*)dref_h;
-//	std::cout << " dr_name:[" << drh->drefName << "]\n";
-
-	if( buffer == nullptr ){
-		return 4;
+    //XP11 sample values: 0,0,0,0
+	if( buffer ){
+        // prob only used for view matrix at this stage
+        buffer[0] = 0; //left
+        buffer[1] = 0; //bottom
+        buffer[2] = 0; //right
+        buffer[3] = 0; //top
 	}
-
-    // prob only used for view matrix at this stage
-    buffer[0] = 0; //left
-    buffer[1] = 0; //bottom
-    buffer[2] = 0; //right
-    buffer[3] = 0; //top
 
     return 4;
 }
@@ -114,6 +117,7 @@ void XPLMGetDatavf( XPLMDataRef dref_h, float* buffer, int offset, int count ){
     std::cout << " buffer:" << buffer;
     std::cout << " offset:" << offset;
     std::cout << " count:" << count;
+    std::cout << "\n";
 
     if( dref_h ){
 
@@ -154,6 +158,11 @@ void XPLMGetDatavf( XPLMDataRef dref_h, float* buffer, int offset, int count ){
 
 float XPLMGetDataf( XPLMDataRef dref_h ){
 
+    // FXPLM_DebugLogHeader("XPLMGetDataf");
+    // std::cout << " dref_h:" << dref_h;
+    // std::cout << " dref_h->name:" << dref_h->drefName;
+    // std::cout << "\n";
+
     if( dref_h ){
         auto dr = reinterpret_cast<xp_dref*>(dref_h);
 
@@ -192,7 +201,11 @@ float XPLMGetDataf( XPLMDataRef dref_h ){
 
 
 int XPLMGetDatai( XPLMDataRef dref_h ){
-    // std::cout << "XPLMGetDatai\n";
+
+    // FXPLM_DebugLogHeader("XPLMGetDatai");
+    // std::cout << " dref_h:" << dref_h;
+    // std::cout << " dref_h->name:" << dref_h->drefName;
+    // std::cout << "\n";
 
     if( dref_h ){
         auto dr = reinterpret_cast<xp_dref*>(dref_h);
@@ -223,7 +236,12 @@ int XPLMGetDatai( XPLMDataRef dref_h ){
 
 
 void XPLMSetDatai( XPLMDataRef dref_h, int new_value ){
-//    std::cout << "XPLMSetDatai\n";
+
+    FXPLM_DebugLogHeader("XPLMSetDatai");
+    std::cout << " dref_h:" << dref_h;
+    std::cout << " dref_h->name:" << dref_h->drefName;
+    std::cout << " val:" << new_value;
+    std::cout << "\n";
 
     if( dref_h ){
         auto dr = reinterpret_cast<xp_dref*>(dref_h);
@@ -255,7 +273,13 @@ XPLMDataRef XPLMFindDataRef( const char* dref_name ){
         std::cout << " 404";
         std::cout << "\n";
 
+#if 0
+        std::cout << "*** AUTO CREATING DREF ***\n";
+        auto dr_hack = dref_factory::saveDref(dref_name,"hack", true);
+        return dr_hack;
+#else
         return nullptr;
+#endif
     }
 
 
@@ -264,7 +288,7 @@ XPLMDataRef XPLMFindDataRef( const char* dref_name ){
 
 
 
-void XPLMRegisterDataAccessor(
+XPLMDataRef XPLMRegisterDataAccessor(
                          const char *         inDataName,
                          XPLMDataTypeID       inDataType,
                          int                  inIsWritable,
@@ -282,53 +306,53 @@ void XPLMRegisterDataAccessor(
                          XPLMSetDatab_f       inWriteData,
                          void *               inReadRefcon,
                          void *               inWriteRefcon)
-    {
+{
 
-		FXPLM_DebugLogHeader("XPLMRegisterDataAccessor");
-        std::cout<<" dr_name:[" << inDataName << "]";
-        std::cout << " type_id:" << inDataType;
-        std::cout << " write:" << inIsWritable;
-        std::cout << "\n\t";
-        std::cout << " f_r_int:" << inReadInt;
-        std::cout << " f_w_int:" << inWriteInt;
-        std::cout << " f_r_float:" << inReadFloat;
-        std::cout << " f_w_float:" << inWriteFloat;
-        std::cout << " f_r_dbl:" << inReadDouble;
-        std::cout << " f_w_dbl:" << inWriteDouble;
-        std::cout << "\n\t";
-
-        std::cout << " f_r_int[]:" << inReadIntArray;
-        std::cout << " f_w_int[]:" << inWriteIntArray;
-        std::cout << " f_r_float[]:" << inReadFloatArray;
-        std::cout << " f_w_float[]:" << inWriteFloatArray;
-        std::cout << " f_r_data:" << inReadData;
-        std::cout << " f_w_data:" << inWriteData;
+	FXPLM_DebugLogHeader("XPLMRegisterDataAccessor");
+    std::cout<<" dr_name:[" << inDataName << "]";
+    std::cout << " type_id:" << inDataType;
+    std::cout << " write:" << inIsWritable;
+    std::cout << "\n\t";
+    std::cout << " f_r_int:" << inReadInt;
+    std::cout << " f_w_int:" << inWriteInt;
+    std::cout << "\n\t";
+    std::cout << " f_r_float:" << inReadFloat;
+    std::cout << " f_w_float:" << inWriteFloat;
+    std::cout << "\n\t";
+    std::cout << " f_r_dbl:" << inReadDouble;
+    std::cout << " f_w_dbl:" << inWriteDouble;
+    std::cout << "\n\t";
+    std::cout << " f_r_int[]:" << inReadIntArray;
+    std::cout << " f_w_int[]:" << inWriteIntArray;
+    std::cout << "\n\t";
+    std::cout << " f_r_float[]:" << inReadFloatArray;
+    std::cout << " f_w_float[]:" << inWriteFloatArray;
+    std::cout << "\n\t";
+    std::cout << " f_r_data:" << inReadData;
+    std::cout << " f_w_data:" << inWriteData;
+    std::cout << "\n\t";
+    std::cout << " r_refcon:" << inReadRefcon;
+    std::cout << " w_refcon:" << inWriteRefcon;
     std::cout << "\n\t";
 
-    std::cout << " r_refcon:" << inReadRefcon;
-        std::cout << " w_refcon:" << inWriteRefcon;
-        std::cout << "\n\t";
 
+    auto dr = dref_factory::saveDref(inDataName, "float");
 
+    if( dr ){
+        dr->m_vecPluginConsumers.push_back( global_target_plugin );
+		global_target_plugin->m_vecDrefs.push_back(dr);
+        std::cout << " ret:" << dr;
+        std::cout << "\n";
 
-        auto dr = dref_factory::saveDref(inDataName, "custom");
-
-        if( dr ){
-        	dr->m_vecPluginConsumers.push_back( global_target_plugin );
-			global_target_plugin->m_vecDrefs.push_back(dr);
-            std::cout << " ret:" << dr;
-            std::cout << "\n";
-
-        }else{
-			//FXPLM_DebugLogHeader("XPLMRegisterDataAccessor");
-			//std::cout << " [" << inDataName << "]";
-            std::cout << " 500: dref_factory::saveDref() ret nullptr.\n";
-        }
-
-        //throw std::runtime_error("custom drefs not supported. :(");
-		//std::cout << ("\tcustom drefs not supported. :(\n");
-
+    }else{
+		//FXPLM_DebugLogHeader("XPLMRegisterDataAccessor");
+		//std::cout << " [" << inDataName << "]";
+        std::cout << " 500: dref_factory::saveDref() ret nullptr.\n";
     }
+
+    return dr;
+
+}
 
 
 void XPLMUnregisterDataAccessor( XPLMDataRef inDataRef ){

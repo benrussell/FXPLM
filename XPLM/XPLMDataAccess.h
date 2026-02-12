@@ -93,7 +93,7 @@ typedef void* XPLMGetDatab_f;
 typedef void* XPLMSetDatab_f;
 
 
-XPLM_API void XPLMRegisterDataAccessor(
+XPLM_API XPLMDataRef XPLMRegisterDataAccessor(
                              const char *         inDataName,
                              XPLMDataTypeID       inDataType,
                              int                  inIsWritable,
