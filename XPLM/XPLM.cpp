@@ -604,7 +604,7 @@ XPLM_API void* FXPLM_DrefPoolPtr() {
 XPLM_API xp_dref* FXPLM_DrefCreate( const char* dref_name ) {
 	FXPLM_DebugLogHeader("FXPLM_DrefCreate");
 	std::cout << " dref_name:[" << dref_name <<"]\n";
-	return dref_factory::saveDref( dref_name, "FXPLM_DrefCreate", false );
+	return dref_factory::saveDref( dref_name, "FXPLM_DrefCreate" );
 }
 
 
