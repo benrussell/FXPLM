@@ -51,7 +51,7 @@ XPLM_API int XPLMGetDatai( XPLMDataRef dref_h );
 XPLM_API void XPLMSetDatai( XPLMDataRef dref_h, int val );
 
 
-XPLM_API void XPLMGetDatavf( XPLMDataRef dref_h, float* buffer, int offset, int count );
+XPLM_API int XPLMGetDatavf( XPLMDataRef dref_h, float* buffer, int offset, int count );
 
 XPLM_API int XPLMGetDatavi( XPLMDataRef dref_h, int* buffer, int offset, int count );
 

@@ -85,9 +85,10 @@ void XPLMSetDataf( XPLMDataRef dref_h, float new_value ){
 
 int XPLMGetDatavi( XPLMDataRef dref_h, int* buffer, int offset, int count ){
 
-#if 1
+#if 0
     FXPLM_DebugLogHeader("HC/ XPLMGetDatavi");
     std::cout << " dref_h:" << dref_h;
+    std::cout << " dref_h->name:" << dref_h->drefName;
 	std::cout << " buff:" << buffer;
 	std::cout << " offset:" << offset;
 	std::cout << " count:" << count;
@@ -109,8 +110,9 @@ int XPLMGetDatavi( XPLMDataRef dref_h, int* buffer, int offset, int count ){
 
 
 
-void XPLMGetDatavf( XPLMDataRef dref_h, float* buffer, int offset, int count ){
+int XPLMGetDatavf( XPLMDataRef dref_h, float* buffer, int offset, int count ){
 
+#if 0
     FXPLM_DebugLogHeader("XPLMGetDatavf" );
     std::cout << " dref_h:" << dref_h;
     std::cout << " dref_h->name:" << dref_h->drefName;
@@ -118,38 +120,44 @@ void XPLMGetDatavf( XPLMDataRef dref_h, float* buffer, int offset, int count ){
     std::cout << " offset:" << offset;
     std::cout << " count:" << count;
     std::cout << "\n";
+#endif
 
     if( dref_h ){
 
         auto dr_base = reinterpret_cast<xp_dref*>(dref_h);
         switch( dr_base->drefType ){
             case xp_dref_type::dref_ModelViewMatrix:
-//                std::cout << " model view matrix\n";
-                //FIXME: glGetFloatv( GL_MODELVIEW_MATRIX, buffer );
+                //std::cout << " model view matrix\n";
+                if ( buffer ) {
+                    glGetFloatv( GL_MODELVIEW_MATRIX, buffer );
+                }
 
                 //XP11
                 // [1.,-0.,-0.000001,0.,0.,1.,0.,0.,0.000001,-0.,1.,0.,0.360008,-1.58,12.599999,1.]
-
+                return 16;
                 break;
 
             case xp_dref_type::dref_ProjectionMatrix:
-//                std::cout << " projection matrix\n";
-                //FIXME: glGetFloatv( GL_PROJECTION_MATRIX, buffer );
+                //std::cout << " projection matrix\n";
+                if ( buffer ) {
+                    glGetFloatv( GL_PROJECTION_MATRIX, buffer );
+                }
 
                 // [0.001563,0.,0.,0.,0.,0.002778,0.,0.,0.,0.,-1.,0.,-1.,-1.,-0.,1.]
-
+                return 16;
                 break;
 
             default:
                 std::cout << " unexpected: " << dr_base->drefName << "\n";
+                return 1;
                 break;
         }
 
     }
 
-
     //std::cout << "[" << global_target_plugin->m_pluginSig << "] " << "XPLMGetDatavf: bad handle.\n";
 
+    return 0;
 }
 
 
