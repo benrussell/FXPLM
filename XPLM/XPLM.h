@@ -42,7 +42,8 @@
 #define ATLAS_SIZE 512
 #define FIRST_CHAR 32 // Space
 #define CHAR_COUNT 96 // ASCII 32 to 127
-#define FONT_FILE "/Users/br/XP12_Libs/Resources/fonts/GoogleSansCode-Bold.ttf"
+//#define FONT_FILE "Resources/fonts/GoogleSansCode-Bold.ttf"
+#define FONT_FILE "Resources/fonts/DejaVuSansMono.ttf"
 
 #include <stb_truetype.h>
 

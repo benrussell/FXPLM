@@ -107,6 +107,7 @@ void init_stbtt()
 {
 
 	std::cout << "******* init_stbtt() ********\n";
+	std::cout << " cwd:" << std::filesystem::current_path() << "\n";
 
 	// --- 1. Load Font File ---
 	std::ifstream file(FONT_FILE, std::ios::binary | std::ios::ate);
