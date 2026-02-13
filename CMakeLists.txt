@@ -130,9 +130,9 @@ set(SRCS
         third_party/timer/src/Timer.cpp
         third_party/timer/src/Timer.h
 
-
         XPLM/xp_dref.cpp
         XPLM/xp_dref.hpp
+
 
         XPLM/XPLMDataAccess.cpp
         XPLM/XPLMDataAccess.h
@@ -154,33 +154,41 @@ set(SRCS
 
         XPLM/XPLMUtilities.cpp
         XPLM/XPLMUtilities.h
+
         XPLM/XPLM.cpp
-
-        XPLM/DataRefsTxtParse.h XPLM/DataRefsTxtParse.cpp
-
-        XPLM/glue_Plugin.hpp
-        XPLM/glue_Dataref.hpp
-        XPLM/glue_DrawCallbackHost.hpp
-        XPLM/glue_FBO.hpp XPLM/glue_FBO.cpp
-        XPLM/glue_AvionicsHost.hpp
-        XPLM/glue_CmdCustom.hpp
-        XPLM/glue_Plugin.cpp
+        XPLM/XPLM.h
 
         XPLM/XPLMMenus.cpp
         XPLM/XPLMMenus.h
+
         XPLM/XPLMNavigation.cpp
         XPLM/XPLMNavigation.h
+
         XPLM/XPLMCamera.cpp
         XPLM/XPLMCamera.h
+
         XPLM/XPLMInstance.cpp
         XPLM/XPLMInstance.h
+
         XPLM/XPLMScenery.cpp
         XPLM/XPLMScenery.h
+
         XPLM/XPLMMap.cpp
         XPLM/XPLMMap.h
 
-        XPLM/glue_WindowEx.cpp XPLM/glue_WindowEx.h
-        XPLM/glue_Menus.cpp XPLM/glue_Menus.h
+
+
+        XPLM/glue_CmdCustom.hpp
+        XPLM/glue_Dataref.hpp
+        XPLM/glue_DrawCallbackHost.hpp
+
+        XPLM/DataRefsTxtParse.h     XPLM/DataRefsTxtParse.cpp
+        XPLM/glue_Plugin.cpp        XPLM/glue_Plugin.hpp
+
+        XPLM/glue_FBO.hpp           XPLM/glue_FBO.cpp
+        XPLM/glue_AvionicsHost.cpp  XPLM/glue_AvionicsHost.hpp
+        XPLM/glue_WindowEx.cpp      XPLM/glue_WindowEx.h
+        XPLM/glue_Menus.cpp         XPLM/glue_Menus.h
 
         )
 
