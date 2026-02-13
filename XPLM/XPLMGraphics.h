@@ -37,7 +37,25 @@ XPLM_API void XPLMSetGraphicsState(
 
 
 enum XPLMFontID {
-	xplmFont_Basic
+	xplmFont_Basic            = 0,  // Mono-spaced font for UI.
+	xplmFont_Menus            = 1,  // Deprecated.
+	xplmFont_Metal            = 2,  // Deprecated.
+	xplmFont_Led              = 3,  // Deprecated.
+	xplmFont_LedWide          = 4,  // Deprecated.
+	xplmFont_PanelHUD         = 5,  // Deprecated.
+	xplmFont_PanelEFIS        = 6,  // Deprecated.
+	xplmFont_PanelGPS         = 7,  // Deprecated.
+	xplmFont_RadiosGA         = 8,  // Deprecated.
+	xplmFont_RadiosBC         = 9,  // Deprecated.
+	xplmFont_RadiosHM         = 10, // Deprecated.
+	xplmFont_RadiosGANarrow   = 11, // Deprecated.
+	xplmFont_RadiosBCNarrow   = 12, // Deprecated.
+	xplmFont_RadiosHMNarrow   = 13, // Deprecated.
+	xplmFont_Timer            = 14, // Deprecated.
+	xplmFont_FullRound        = 15, // Deprecated.
+	xplmFont_SmallRound       = 16, // Deprecated.
+	xplmFont_Menus_Localized  = 17, // Deprecated.
+	xplmFont_Proportional     = 18  // Proportional UI font.
 };
 
 

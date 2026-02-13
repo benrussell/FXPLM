@@ -168,6 +168,18 @@ XPLM_API void       XPLMDrawString(
 		XPLMFontID           inFontID) {
 // ... (omitted logging)
 
+
+	FXPLM_DebugLogHeader("XPLMDrawString");
+	std::cout << " x:" << inXOffset;
+	std::cout << " y:" << inYOffset;
+	std::cout << " inChar:[" << inChar << "]";
+	if ( inWordWrapWidth ) {
+		std::cout << " wrap_width:" << *inWordWrapWidth;
+	}
+	std::cout << " font_id:" << inFontID;
+	std::cout << "\n";
+
+
 	// FIX 1: lam_drawBox needs pixel dimensions, and UVs must be normalized here
 	auto lam_drawBox = []( float* inColorRGB,
 						   float px0, float py0, float px1, float py1, // Pixel Coords from cdata
@@ -267,7 +279,38 @@ XPLM_API void       XPLMDrawTranslucentDarkBox(
                          int                  inTop,
                          int                  inRight,
                          int                  inBottom) {
-    std::cerr<<"FXPLM/ NOP/ XPLMDrawTranslucentDarkBox()\n";
+
+	FXPLM_DebugLogHeader("XPLMDrawTranslucentDarkBox");
+	std::cout << " l:" << inLeft;
+	std::cout << " t:" << inTop;
+	std::cout << " r:" << inRight;
+	std::cout << " b:" << inBottom;
+	std::cout << "\n";
+
+	//FIXME: draw a fuckin box eh.
+
+	auto lam_drawTranslucentBox = [](float left, float top, float right, float bottom) {
+		// 1. Enable Blending
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		// 2. Set Color: Dark Grey (0.2) at 50% Alpha (0.5)
+		glColor4f(0.2f, 0.2f, 0.2f, 0.5f);
+
+		// 3. Draw Geometry
+		glBegin(GL_QUADS);
+		glVertex2f(left,  top);    // Top Left
+		glVertex2f(right, top);    // Top Right
+		glVertex2f(right, bottom); // Bottom Right
+		glVertex2f(left,  bottom); // Bottom Left
+		glEnd();
+
+		// 4. Cleanup state
+		glDisable(GL_BLEND);
+	};
+
+	lam_drawTranslucentBox( inLeft,inTop,inRight,inBottom );
+
 }
 
 
@@ -279,21 +322,24 @@ XPLM_API void       XPLMGetFontDimensions(
                          int *                outDigitsOnly /* Can be NULL */
                          ){
 
-	FXPLM_DebugLogHeader("HC/ XPLMGetFontDimensions");
+	// font 0 is mono spaced
+	// font 18 is proportional
 
+	FXPLM_DebugLogHeader("HC/ XPLMGetFontDimensions");
 	std::cout << " id:" << inFontID;
+
 	if( outCharWidth ){
-		std::cout << " char_w:" << *outCharWidth;
+	//	std::cout << " char_w:" << *outCharWidth;
 		*outCharWidth = 7;
 	}
 	if( outCharHeight ){
-		std::cout << " char_h:" << *outCharHeight;
+	//	std::cout << " char_h:" << *outCharHeight;
 		*outCharHeight = 12;
 
 	}
 	if( outDigitsOnly ){
-		std::cout << " digits:" << *outDigitsOnly;
 		*outDigitsOnly = 0;
+		std::cout << " digits_only:" << *outDigitsOnly;
 	}
 
 	std::cout << " / ret: w:7 h:10 digits:0\n";
@@ -304,27 +350,39 @@ XPLM_API void       XPLMGetFontDimensions(
 
 XPLM_API int        XPLMGetTexture(
                          XPLMTextureID        inTexture) {
-    std::cerr<<"FXPLM/ NOP/ XPLMGetTexture\n";
+
+	FXPLM_DebugLogHeader("HC/ XPLMGetTexture");
+	std::cout << " inTexture:" << inTexture;
 
     //FIXME: return a GL texture number that points to something useful
     switch( inTexture ){
     	case xplm_Tex_GeneralInterface:
+    		std::cout << " general_interface";
+    		//return 1;
     		break;
     	case xplm_Tex_AircraftPaint:
+    		std::cout << " acf_paint";
+    		//return 2;
     		break;
     	case xplm_Tex_AircraftLiteMap:
+    		std::cout << " acf_lite_map";
+    		//return 3;
     		break;
     	case xplm_Tex_Radar_Pilot:
+    		std::cout << " radar_pilot";
+    		//return 4;
     		break;
     	case xplm_Tex_Radar_Copilot:
+    		std::cout << " radar_copilot";
+    		//return 5;
     		break;
 
     	default:
-			std::cerr<<"FXPLM/ XPLMGetTexture("<< (int)inTexture <<"): unknown tex query id\n";
-			return 0;
-    		break;
+			std::cout<<"unknown tex query id\n";
+			break;
     }
 
+	std::cout << "\n";
 
 	return 0;
 

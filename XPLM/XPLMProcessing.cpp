@@ -40,7 +40,7 @@ XPLMFlightLoopID XPLMCreateFlightLoop( XPLMCreateFlightLoop_t* loop_params ){
     printf("  refcon:%p\n", loop_params->refcon);
 
     if( global_target_plugin ){
-        return (void*)global_target_plugin->register_flcb( *loop_params );
+        return (void*)global_target_plugin->register_flcb( loop_params );
     }else{
         std::cout<<" XPLMCreateFlightLoop failed; bad plugin ptr\n";
     }
