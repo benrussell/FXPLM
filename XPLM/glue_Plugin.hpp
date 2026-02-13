@@ -111,7 +111,7 @@ public:
 
 	void run_flcbs();
 	void flcb_set( XPLMFlightLoopID id, float interval, int rel_now );
-	XPLMFlightLoopID register_flcb( XPLMCreateFlightLoop_t p );
+	XPLMFlightLoopID register_flcb( XPLMCreateFlightLoop_t* p );
 
 
 	void send_xpl_message( int from, int message, void* param );

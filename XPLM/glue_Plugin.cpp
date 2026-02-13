@@ -181,7 +181,7 @@
 			cb.m_lastDelta = delta;
 
 			auto params = cb.params;
-			auto xp_delta = (float)(delta / 1000.0); //x-plane SDK specifies decimal seconds.
+			auto xp_delta = static_cast<float>(delta / 1000.0); //x-plane SDK specifies decimal seconds.
 
 			const double dFLCBStart = m_timer.getElapsedTimeInMilliSec();
 			const float retVal = (*params.callbackFunc)(
@@ -195,7 +195,7 @@
 			cb.profile_ms = dFLCBStop - dFLCBStart;
 			//std::cout << "XDbg: retval from clcb_f: " << retVal << "\n";
 			cb.interval_secs = retVal;
-			cb.interval_millis = (double)cb.interval_secs * 1000.0;
+			cb.interval_millis = static_cast<double>(cb.interval_secs) * 1000.0;
 
 			++cb.m_callCounter;
 
@@ -269,13 +269,17 @@
 	}
 
 
-	XPLMFlightLoopID Plugin::register_flcb( XPLMCreateFlightLoop_t p ){
+	XPLMFlightLoopID Plugin::register_flcb( XPLMCreateFlightLoop_t* p ){
 
 		//std::cout << "FXPLM/ Plugin::register_flcb:\n";
 		//printf("FXPLM/  param ptr: %p\n", &p);
 
+		//take a copy of all params
+		XPLMCreateFlightLoop_t p2;
+		memcpy(&p2, p, sizeof(XPLMCreateFlightLoop_t));
+
 		cb_params_t flcb;
-		flcb.params = p;
+		flcb.params = p2;
 		flcb.interval_secs=0.f;
 		flcb.interval_millis = flcb.interval_secs * 1000.0;
 		flcb.relative_to_now=0;
