@@ -157,4 +157,14 @@ XPLM_API void       XPLMGetPrefsPath(
                          char *               outPrefsPath);
 
 
+
+typedef void (* XPLMError_f)(
+                         const char *         inMessage);
+
+XPLM_API void       XPLMSetErrorCallback(
+                         XPLMError_f          inCallback);
+
+
+
+
 #endif /* XPLMUtilities_hpp */

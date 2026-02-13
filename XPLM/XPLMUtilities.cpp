@@ -537,3 +537,11 @@ XPLM_API void       XPLMGetPrefsPath(
 
     snprintf( outPrefsPath, 512, "/tmp/xp_prefs.txt" );
 }
+
+
+XPLM_API void       XPLMSetErrorCallback(
+                         XPLMError_f          inCallback) {
+    FXPLM_DebugLogHeader("NOP/ XPLMSetErrorCallback");
+    std::cout << " cb:" << inCallback;
+    std::cout << "\n";
+}
