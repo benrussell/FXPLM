@@ -462,7 +462,18 @@ XPLM_API void       XPLMBringWindowToFront(
 XPLM_API void       XPLMGetScreenSize(
                          int *                outWidth,    /* Can be NULL */
                          int *                outHeight /* can be NULL */ ) {
-    std::cerr <<"FXPL/ NOP/ XPLMGetScreenSize()\n";
+    FXPLM_DebugLogHeader("HC/ XPLMGetScreenSize");
+	if ( outWidth ) {
+		*outWidth = 1024;
+		std::cout << " ret_w:" << 1024;
+	}
+
+	if ( outHeight ) {
+		*outHeight = 768;
+		std::cout << " ret_h:" << 768;
+	}
+
+	std::cout<<"\n";
 }
 
 
