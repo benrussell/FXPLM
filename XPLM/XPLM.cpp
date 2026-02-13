@@ -25,6 +25,10 @@
 #include <iostream>
 #include "glue_Menus.h"
 
+
+#include "PluginContextGuard.h"
+
+
 Plugin* global_target_plugin;
 
 #include <algorithm>
@@ -84,7 +88,7 @@ void spawn_host_app_plugin() {
 	const auto fname = "XPL_Workbench";
 	Plugin *p = new Plugin(fname);
 	XPHost::m_vecPlugins.push_back(p);
-	p->takeContext();
+	//p->takeContext();
 
 }
 
@@ -396,7 +400,9 @@ XPLM_API int FXPLM_DrawWindows() {
 
 	for( auto p: XPHost::m_vecPlugins ){
 		if ( p->m_plugin_is_enabled ) {
-			p->takeContext();
+
+			PluginContextGuard ctx(p);
+
 			for( const auto& win_h: p->m_vecWindowHandles ){
 				if( win_h->m_params->visible ){
 					win_h->m_bakeStart = XPHost::m_ptrTimer->getElapsedTimeInMilliSec();
@@ -406,7 +412,7 @@ XPLM_API int FXPLM_DrawWindows() {
 					win_h->m_bakeStop = XPHost::m_ptrTimer->getElapsedTimeInMilliSec();
 				}
 			}//loop windows
-			p->releaseContext();
+
 		} //enabled?
 	} //loop all plugins
 
@@ -504,7 +510,8 @@ XPLM_API int FXPLM_HandleWindowClick( float x, float y ){
 		std::cout << " iter sorted vecWindowHandles..\n";
 		for (const auto win_h: vecWindowHandles) {
 			p = mapPluginForWindow[win_h];
-			p->takeContext();
+
+			PluginContextGuard ctx(p);
 
 			//FIXME: add click time logging
 			// win_h->m_bakeStart = XPHost::m_ptrTimer->getElapsedTimeInMilliSec();
@@ -547,8 +554,6 @@ XPLM_API int FXPLM_HandleWindowClick( float x, float y ){
 
 			} //check for mouse handler
 
-
-			p->releaseContext();
 		}//loop win_h vec
 	}//var name iso
 

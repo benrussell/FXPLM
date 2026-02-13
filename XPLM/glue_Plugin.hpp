@@ -43,11 +43,6 @@
 // #include "../third_party/timer/src/Timer.h"
 
 
-class Plugin;
-//extern Plugin* global_target_plugin;
-
-
-
 
 
 class Plugin {

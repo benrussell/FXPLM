@@ -35,6 +35,7 @@
 #include "glue_AvionicsHost.hpp"
 
 #include "glue_WindowEx.h"
+#include "PluginContextGuard.h"
 
 
 extern AvionicsHost* dev;
@@ -424,7 +425,9 @@ XPLM_API void       XPLMBringWindowToFront(
 	//iterate all plugins / windows
 	for( auto p: XPHost::m_vecPlugins ) {
 		if (p->m_plugin_is_enabled) {
-			p->takeContext();
+
+			PluginContextGuard ctx(p);
+
 			std::cout << " z-shift ctx push:" << p->m_pluginSig << "\n";
 
 			std::cout << "  z-shift iter p->win_h[]\n";
@@ -438,7 +441,6 @@ XPLM_API void       XPLMBringWindowToFront(
 			} //iter p->win_h[]
 
 			std::cout << " z-shift ctx pop:" << p->m_pluginSig << "\n";
-			p->releaseContext();
 
 		}//enabled?
 	}//loop plugins

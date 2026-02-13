@@ -33,6 +33,8 @@
 
 
 #include "glue_Plugin.hpp"
+#include "PluginContextGuard.h"
+
 namespace XPHost {
     extern std::vector<Plugin*> m_vecPlugins;
     extern std::vector<std::string> m_vecLog;
@@ -136,10 +138,11 @@ void FXPLM_SendMessageToPlugin( int from, int to, int message, void* param ){
         return;
     }
 
-    auto target = XPHost::m_vecPlugins[target_id];
-    target->takeContext();
-    	target->send_xpl_message( from, message, param );
-    target->releaseContext();
+	{
+	    auto target = XPHost::m_vecPlugins[target_id];
+	    PluginContextGuard ctx(target);
+	    target->send_xpl_message(from, message, param);
+	}
 
 }
 

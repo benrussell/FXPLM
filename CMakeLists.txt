@@ -189,8 +189,9 @@ set(SRCS
         XPLM/glue_AvionicsHost.cpp  XPLM/glue_AvionicsHost.hpp
         XPLM/glue_WindowEx.cpp      XPLM/glue_WindowEx.h
         XPLM/glue_Menus.cpp         XPLM/glue_Menus.h
+        XPLM/PluginContextGuard.h
 
-        )
+)
 
 
 SUBDIRS(

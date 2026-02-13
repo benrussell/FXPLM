@@ -23,6 +23,7 @@
 
 #include "glue_Plugin.hpp"
 
+#include "PluginContextGuard.h"
 
 #include <string>
 #include <dlfcn.h>
@@ -60,7 +61,7 @@
 
 			m_timer.start();
 
-			this->takeContext();
+			PluginContextGuard ctx(this);
 
 			std::cout<<"FXPLM/ calling dlopen(" << fname << ")\n";
 			std::cerr<<"  cwd: [" << std::filesystem::current_path() << "]\n";
@@ -154,6 +155,7 @@
 
 	}
 
+
 	void Plugin::releaseContext(){
 		global_target_plugin = nullptr; //inside releaseContext()
 		// call_xplm_set_context( global_target_plugin );
@@ -172,7 +174,7 @@
 			return;
 		}
 
-		this->takeContext();
+		PluginContextGuard ctx(this);
 
 		auto lam_runCallbackFn = [this](cb_params_t &cb, double delta) {
 			//cb.m_lastTimerMillis = now;
@@ -232,12 +234,9 @@
 				// interval is set to 0, registered but not scheduled. skip.
 			}
 
-
 		} //loop flcb vec for this plugin
 
-		//global_target_plugin = nullptr;
-		this->releaseContext();
-	}
+	} //run_flcbs
 
 
 	void Plugin::flcb_set( XPLMFlightLoopID id, float interval, int rel_now ){
@@ -295,6 +294,9 @@
 			<< (void*)(int64_t)message << ", "
 			<< (void*)param << " "
 			")\n";
+
+			PluginContextGuard ctx(this);
+
 			void (*fptr_rx_msg)(int,int,void*);
 			fptr_rx_msg = (void (*)(int,int,void*))dlsym( m_dlh, "XPluginReceiveMessage" ); //FIXME: replace with fn sig typedef
 
@@ -308,7 +310,8 @@
 
 	void Plugin::call_disable() {
 		if( m_plugin_start_ret_val ) {
-			this->takeContext();
+
+			PluginContextGuard ctx(this);
 
 			std::cout<<"------------------------\nFXPLM/ m_dlh["<< m_plugin_id <<"/" << m_pluginSig << "]->XPluginDisable()\n";
 			void (*fptr_disable)();
@@ -321,7 +324,6 @@
 				std::cout<<"FXPLM/ plugin has no disable fn. Host App? Broken plugin?\n";
 			}
 
-			this->releaseContext();
 		}else{
 			std::cout<<"FXPLM/ m_dlh["<< m_plugin_id <<"/" << m_pluginSig << "]->XPluginDisable - skipped. Plugin refused to start.\n";
 		} //check that plugin ever started
@@ -332,7 +334,7 @@
 	int Plugin::call_enable() {
 		m_plugin_enable_ret_val = 0;
 
-		this->takeContext();
+		PluginContextGuard ctx(this);
 
 		std::cout<<"------------------------\nFXPLM/ m_dlh["<< m_plugin_id <<"/" << m_pluginSig << "]->XPluginEnable()\n";
 		int (*fptr_enable)();
@@ -351,8 +353,6 @@
 
 		}
 
-		this->releaseContext();
-
 		return m_plugin_enable_ret_val;
 
 	}
@@ -368,7 +368,8 @@
 		int (*fptr_start)(char*,char*,char*);
 		fptr_start = (int (*)(char*,char*,char*))dlsym( m_dlh, "XPluginStart" ); //FIXME: replace with fn sig typedef
 		if( fptr_start ) {
-			this->takeContext();
+
+			PluginContextGuard ctx(this);
 
 			m_plugin_start_ret_val = (*fptr_start)(name, sig, desc);
 
@@ -384,8 +385,6 @@
 			m_pluginDesc = desc;
 
 			//FIXME: search existing plugin pool for clashing id strings.
-
-			this->releaseContext();
 
 		}else{
 			std::string msg = "------------------------\nFXPLM/ Could not find XPluginStart";
@@ -409,12 +408,14 @@
 
 	void Plugin::call_stop() {
 		if( m_plugin_start_ret_val ){
-			this->takeContext();
+
+			PluginContextGuard ctx(this);
+
 			std::cout<<"------------------------\nFXPLM/ m_dlh["<< m_plugin_id <<"/" << m_pluginSig << "]->XPluginStop()\n";
 			void (*fptr_stop)();
 			fptr_stop = (void (*)())dlsym( m_dlh, "XPluginStop" ); //FIXME: replace with fn sig typedef
 			(*fptr_stop)();
-			this->releaseContext();
+
 		}else{
 			std::cout<<"------------------------\nFXPLM/ m_dlh["<< m_plugin_id <<"/" << m_pluginSig << "]->XPluginStop - skipped. Plugin refused to start.\n";
 		}
