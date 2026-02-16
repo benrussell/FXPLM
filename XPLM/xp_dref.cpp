@@ -25,6 +25,56 @@
 #include "xp_dref.hpp"
 
 
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <regex>
+
+struct ParsedType {
+	std::string baseType;
+	std::vector<int> dimensions;
+};
+
+ParsedType parseString(const std::string& input) {
+	ParsedType result;
+
+	// Find the first bracket to isolate the base type
+	size_t firstBracket = input.find('[');
+
+	if (firstBracket == std::string::npos) {
+		result.baseType = input;
+		return result;
+	}
+
+	result.baseType = input.substr(0, firstBracket);
+
+	// Extract numbers between []
+	std::regex re("\\[(\\d+)\\]");
+	auto words_begin = std::sregex_iterator(input.begin() + firstBracket, input.end(), re);
+	auto words_end = std::sregex_iterator();
+
+	for (std::sregex_iterator i = words_begin; i != words_end; ++i) {
+		std::smatch match = *i;
+		result.dimensions.push_back(std::stoi(match[1].str()));
+	}
+
+	return result;
+}
+
+
+
+
+
+
+
+
+
 xp_dref::xp_dref( std::string name, xp_dref_type type, std::string typeName ){
 //        std::cout << "xp_dref() constructor ********\n";
 	drefName = std::move(name);
@@ -113,6 +163,47 @@ xp_dref* dref_factory::findDref( const std::string& name ){
 xp_dref* dref_factory::saveDref( const std::string& name, const std::string type, bool try_find ){
 	//std::cout<<"dref_factory::saveDref: " << name << "\n";
 
+
+	auto type_info = parseString( type );
+
+
+	size_t element_bytes = 0;
+	if( type_info.baseType == "float" ){
+		element_bytes = sizeof( float );
+	}else if( type_info.baseType == "int" ) {
+		element_bytes = sizeof( int );
+	}else if( type_info.baseType == "double" ) {
+		element_bytes = sizeof( double );
+	}else if( type_info.baseType == "byte" ) {
+		element_bytes = sizeof( char );
+	}else{
+		std::cout << "******* UNKNOWN DATA TYPE:" << type_info.baseType << "\n";
+	}
+
+
+	if( type_info.dimensions.size() > 0 ){
+		std::cout << " type: " << type_info.baseType;
+
+		std::cout << " arr_dims: " << type_info.dimensions.size();
+		size_t elements_needed = type_info.dimensions[0];
+		std::cout << " d:" <<  type_info.dimensions[0];
+		if( type_info.dimensions.size() > 1 ){
+			for( size_t x=1; x < type_info.dimensions.size(); ++x ){
+				elements_needed = elements_needed * type_info.dimensions[x];
+				std::cout << " d:" <<  type_info.dimensions[x];
+			}
+		}
+		std::cout << " elements:" << elements_needed;
+
+		size_t bytes_needed = elements_needed * element_bytes;
+		std::cout << " bytes_needed:" << bytes_needed;
+
+		std::cout << "\n";
+
+	} //if array
+
+
+
 	xp_dref* dr;
 
 	//this is optional so we can load from DataRefs.txt without error logs
@@ -124,6 +215,10 @@ xp_dref* dref_factory::saveDref( const std::string& name, const std::string type
 		}
 	}
 
+	//FIXME: use our parsed type data above to affect the dref created here
+	// - tag the new dref as an array type if needed
+	// - call for malloc so we have some raw backing memory for the required array storage
+	// - add appropriate wrapper fns's and wire them to the SetDatavX and GetDatavX functions of the SDK
 	dr = new xp_dref( name, xp_dref_type::dref_Generic, type );
 	XPHost::m_dref_pool.push_back(dr);
 

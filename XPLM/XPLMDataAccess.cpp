@@ -74,10 +74,13 @@ void XPLMSetDataf( XPLMDataRef dref_h, float new_value ){
     // std::cout << " val:" << new_value;
     // std::cout << "\n";
 
-    //if( dref_h ){
+    if( dref_h ){
         auto dr = reinterpret_cast<xp_dref*>(dref_h);
         dr->setFloat( new_value );
-    //}
+    }else{
+		FXPLM_DebugLogHeader("XPLMSetDataf");
+		std::cout << " dref_h is nullptr\n";
+    }
 
 }
 
@@ -94,6 +97,9 @@ int XPLMGetDatavi( XPLMDataRef dref_h, int* buffer, int offset, int count ){
 	std::cout << " count:" << count;
 	std::cout << "\n";
 #endif
+
+
+	//random hard coded values...... screen size? viewport?
 
     //XP11 sample values: 0,0,0,0
 	if( buffer ){
@@ -196,8 +202,6 @@ float XPLMGetDataf( XPLMDataRef dref_h ){
     //could not find a dref
 	FXPLM_DebugLogHeader("XPLMGetDataf");
     std::cout << "bad handle. returning 0.f\n";
-
-
     return 0.f;
 }
 
@@ -237,7 +241,8 @@ int XPLMGetDatai( XPLMDataRef dref_h ){
 
     }
 
-    // std::cout << "[" << global_target_plugin->m_pluginSig << "] " << "XPLMGetDatai: bad handle.\n";
+    FXPLM_DebugLogHeader("XPLMGetDatai");
+	std::cout << "bad handle. returning 0\n";
     return 0;
 }
 
@@ -380,7 +385,9 @@ int XPLMIsDataRefGood( XPLMDataRef dref ) {
     // ret 1 for valid dref - not orphaned.
     // ret 0 for orphaned.
 
-    std::cout<<"FXPLM/ XPLMIsDatarefGood - doesnt track dref ownership\n"; //FIXME:
+
+	FXPLM_DebugLogHeader("HC/ XPLMIsDatarefGood");
+	std::cout<<" - doesnt track dref ownership. hc_ret:1\n"; //FIXME:
     return 1;
 }
 
@@ -415,10 +422,6 @@ void XPLMSetDatad( XPLMDataRef dref_h, double new_value ) {
     std::cout<<"FXPLM/ NOP/ XPLMSetDatad\n"; //FIXME
 }
 
-void XPLMSetDatab() {
-    std::cout<<"FXPLM/ NOP/ XPLMSetDatab\n"; //FIXME
-}
-
 
 double XPLMGetDatad(  XPLMDataRef dref_h ) {
     std::cout<<"FXPLM/ XPLMGetDatad - broken!\n"; //FIXME
@@ -450,12 +453,18 @@ double XPLMGetDatad(  XPLMDataRef dref_h ) {
 
 }
 
+
+void XPLMSetDatab() {
+	std::cout<<"FXPLM/ NOP/ XPLMSetDatab\n"; //FIXME
+}
+
+
 void XPLMGetDatab() {
     std::cout<<"FXPLM/ NOP/ XPLMGetDatab\n";
 }
 
 
-XPLM_API int        XPLMShareData(
+int        XPLMShareData(
                          const char *         inDataName,
                          XPLMDataTypeID       inDataType,
                          XPLMDataChanged_f    inNotificationFunc,
@@ -465,7 +474,7 @@ XPLM_API int        XPLMShareData(
 
 
 
-XPLM_API int        XPLMUnshareData(
+int        XPLMUnshareData(
                          const char *         inDataName,
                          XPLMDataTypeID       inDataType,
                          XPLMDataChanged_f    inNotificationFunc,
