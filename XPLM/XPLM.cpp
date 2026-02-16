@@ -142,6 +142,7 @@ void init_stbtt()
 		auto cdata = g_cdata[x];
 //		std::cout << " char_target:" << char_target;
 //		std::cout << " / gi:" << glyph_index;
+#if 0
 		std::cout << "x:" << x;
 		std::cout << " / adv:" << cdata.xadvance;
 		std::cout << " / adv:" << cdata.xoff;
@@ -150,7 +151,7 @@ void init_stbtt()
 		std::cout << " / x1:" << cdata.x1;
 		std::cout << " / y1:" << cdata.y1;
 		std::cout << "\n";
-
+#endif
 	}
 
 
