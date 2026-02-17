@@ -140,7 +140,7 @@ XPLM_API void XPLMGetWindowGeometry( XPLMWindowID inWindowID,
 
 XPLM_API int XPLMGetWindowIsVisible( XPLMWindowID inWindowID ){
     std::cout << "XPLMGetWindowIsVisible\n";
-    auto b = (glue_WindowEx*)inWindowID;
+    // auto b = (glue_WindowEx*)inWindowID;
     
     //FIXME: return glfwGetWindowAttrib(b->m_winh, GLFW_VISIBLE);;
     return 0;
@@ -164,7 +164,7 @@ XPLM_API void XPLMSetWindowIsVisible( XPLMWindowID inWindowID, int inIsVisible )
 
 
 XPLM_API int XPLMHasKeyboardFocus( XPLMWindowID inWindowID ){
-    auto b = (glue_WindowEx*)inWindowID;
+    // auto b = (glue_WindowEx*)inWindowID;
     //FIXME: return glfwGetWindowAttrib(b->m_winh, GLFW_FOCUSED);
     return 0;
 }

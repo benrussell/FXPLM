@@ -67,7 +67,7 @@ void load_datarefs() {
 
 	auto drefs = DataRefsTxtParse(rel_fname.c_str());
 
-	for ( const auto dr: drefs.m_recs ) {
+	for ( const auto& dr: drefs.m_recs ) {
 		dref_factory::saveDref( dr.name, dr.type, false );
 	}
 
@@ -139,7 +139,7 @@ void init_stbtt()
 
 	std::cout << "gc_data:" << (void*)&g_cdata << "\n";
 	for(int x=0; x<CHAR_COUNT; x++){
-		auto cdata = g_cdata[x];
+		// auto cdata = g_cdata[x];
 //		std::cout << " char_target:" << char_target;
 //		std::cout << " / gi:" << glyph_index;
 #if 0

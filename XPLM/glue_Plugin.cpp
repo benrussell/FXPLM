@@ -142,9 +142,9 @@
 
 	void Plugin::takeContext(){
 
-		if( (void*)this == nullptr ){
-			throw std::runtime_error("Plugin::takeContext: 'this' is nullptr.");
-		}
+		// if( (void*)this == nullptr ){
+		// 	throw std::runtime_error("Plugin::takeContext: 'this' is nullptr.");
+		// }
 
 		global_target_plugin = this; // inside takeContext()
 		// call_xplm_set_context( global_target_plugin );
@@ -432,9 +432,9 @@
 const char* Plugin::getSafeSig(){
 
 
-	if( (void*)this == nullptr ){ //FIXME: this is apparently UB. to properly fix it we need to enforce all deref casts of Plugin* as clean.
-		throw std::runtime_error("Plugin::getSafeSig(): Plugin* is nullptr");
-	}
+	// if( (void*)this == nullptr ){ //FIXME: this is apparently UB. to properly fix it we need to enforce all deref casts of Plugin* as clean.
+	// 	throw std::runtime_error("Plugin::getSafeSig(): Plugin* is nullptr");
+	// }
 
 
 	const char* sep = ":";

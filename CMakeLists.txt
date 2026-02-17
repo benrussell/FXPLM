@@ -61,7 +61,7 @@ ENDIF( APPLE )
 
 # Linux
 IF(CMAKE_SYSTEM_NAME STREQUAL Linux)
-    set(CMAKE_CXX_FLAGS "-O0 -rdynamic -ldl -fPIC")
+    set(CMAKE_CXX_FLAGS "-O0 -rdynamic -ldl -fPIC -Wall")
 
 ENDIF(CMAKE_SYSTEM_NAME STREQUAL Linux)
 

@@ -392,7 +392,7 @@ void XPLMGetDirectoryContents(const char* inDirectoryPath,
     }
 
     // --- 3. Prepare for Copying ---
-    int availableSpace = inFileNameBufSize;
+    size_t availableSpace = inFileNameBufSize;
     int filesReturned = 0;
     int currentPos = 0;
 

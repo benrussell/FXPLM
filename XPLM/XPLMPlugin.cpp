@@ -82,7 +82,7 @@ void XPLMGetPluginInfo(
 	FXPLM_DebugLogHeader("XPLMGetPluginInfo");
 	std::cout << " id:" << pluginId;
 
-    const int targetId = pluginId;
+    const auto targetId = (size_t)pluginId;
     if ( targetId > XPHost::m_vecPlugins.size() ) {
         std::cout << " *** targetId " << targetId << " is out of bounds. ***\n";
         throw std::runtime_error("XPLMGetPluginInfo: targetId is out of bounds.");

@@ -210,7 +210,7 @@ void AvionicsHost::draw_composite(){
 		glDisable(GL_TEXTURE_2D);
 	};
 
-	const float sz = 512;
+	// const float sz = 512;
 
 //		m_composite_fbo->m_width
 

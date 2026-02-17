@@ -403,7 +403,7 @@ XPLM_API float      XPLMMeasureString(
     float ret = 0.f;
 
     const float avg_width = 5.f;
-    for( size_t x=0; x<inNumChars; ++x ){
+    for( int x=0; x<inNumChars; ++x ){
     	ret += avg_width;
     	if( inChar[x] == 0 ){
     		break;
