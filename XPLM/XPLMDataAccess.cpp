@@ -43,7 +43,7 @@ void XPLMSetDatavf( XPLMDataRef dref_h, float* new_values, int offset, int count
 
     if( dref_h ){
         auto dr = reinterpret_cast<xp_dref*>(dref_h);
-        dr->setFloat( new_values[0] );
+        dr->setFloat( new_values[0] ); //FIXME: upgrade to blob store and memcpy
 
     }
 
@@ -88,7 +88,7 @@ void XPLMSetDataf( XPLMDataRef dref_h, float new_value ){
 
 int XPLMGetDatavi( XPLMDataRef dref_h, int* buffer, int offset, int count ){
 
-#if 0
+#if 1
     FXPLM_DebugLogHeader("HC/ XPLMGetDatavi");
     std::cout << " dref_h:" << dref_h;
     std::cout << " dref_h->name:" << dref_h->drefName;

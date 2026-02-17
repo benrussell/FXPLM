@@ -28,7 +28,7 @@
 #include <stdio.h>
 
 
-
+#include "XPLMDataAccess.h"
 
 #include <string>
 #include <utility>
@@ -68,6 +68,8 @@ struct xp_drefs_params {
 
 	size_t elements_needed;
 	size_t bytes_needed;
+
+	XPLMDataTypeID sdk_type;
 
 };
 
