@@ -141,7 +141,6 @@ int XPLMGetDatavf( XPLMDataRef dref_h, float* buffer, int offset, int count ){
                 //XP11
                 // [1.,-0.,-0.000001,0.,0.,1.,0.,0.,0.000001,-0.,1.,0.,0.360008,-1.58,12.599999,1.]
                 return 16;
-                break;
 
             case xp_dref_type::dref_ProjectionMatrix:
                 //std::cout << " projection matrix\n";
@@ -151,17 +150,19 @@ int XPLMGetDatavf( XPLMDataRef dref_h, float* buffer, int offset, int count ){
 
                 // [0.001563,0.,0.,0.,0.,0.002778,0.,0.,0.,0.,-1.,0.,-1.,-1.,-0.,1.]
                 return 16;
-                break;
+
 
             default:
-                std::cout << " unexpected: " << dr_base->drefName << "\n";
-                return 1;
-                break;
-        }
+                //generic data storage
+                if ( buffer ) {
+                    const size_t float_size = sizeof(float);
+                    memcpy( buffer, dref_h->m_blob + (float_size * offset), float_size * count);
+                }
+                return dref_h->m_elements;
 
-    }
+        } //detect special defs with fn backing
 
-    //std::cout << "[" << global_target_plugin->m_pluginSig << "] " << "XPLMGetDatavf: bad handle.\n";
+    } //valid dref handle?
 
     return 0;
 }
