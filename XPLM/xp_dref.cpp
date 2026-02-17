@@ -36,10 +36,6 @@
 #include <vector>
 #include <regex>
 
-struct ParsedType {
-	std::string baseType;
-	std::vector<int> dimensions;
-};
 
 ParsedType parseString(const std::string& input) {
 	ParsedType result;
@@ -74,13 +70,31 @@ ParsedType parseString(const std::string& input) {
 
 
 
+xp_dref::~xp_dref() {
+	free( m_blob );
+}
 
-xp_dref::xp_dref( std::string name, xp_dref_type type, std::string typeName ){
+
+//xp_dref::xp_dref( std::string name, xp_dref_type type, std::string typeName ){
+xp_dref::xp_dref( xp_drefs_params params ){
 //        std::cout << "xp_dref() constructor ********\n";
-	drefName = std::move(name);
-	drefType = type;
+	drefName = std::move(params.name);
+	drefType = params.type;
 
-	drefTypeName = typeName;
+	drefTypeName = params.typeName;
+	drefTypeName_Raw = params.typeName_Raw;
+
+	m_elements = params.elements_needed;
+	m_blob_size = params.bytes_needed;
+	//m_blob = malloc( m_blob_size );
+	m_blob = calloc( 1, m_blob_size );
+
+	// - call for malloc so we have some raw backing memory for the required array storage
+	if ( !m_blob) {
+		throw std::runtime_error("xp_dref ctor, could not alloc blob.");
+	}
+
+	//FIXME: - add appropriate wrapper fns's and wire them to the SetDatavX and GetDatavX functions of the SDK
 
 	m_valDouble = 0.0;
 	m_valFloat = 0.0f;
@@ -160,12 +174,22 @@ xp_dref* dref_factory::findDref( const std::string& name ){
 
 
 
-xp_dref* dref_factory::saveDref( const std::string& name, const std::string type, bool try_find ){
+xp_dref* dref_factory::saveDref( const std::string& name, const std::string raw_type, bool try_find ){
 	//std::cout<<"dref_factory::saveDref: " << name << "\n";
 
+	//this is optional so we can load from DataRefs.txt without error logs
+	if ( try_find ) {
+		if ( auto dr_find = findDref( name ) ) {
+			std::cout << "  saveDref: dref found existing [" << name << "]\n";
+			return dr_find;
+		}
+	}
 
-	auto type_info = parseString( type );
 
+
+
+
+	auto type_info = parseString( raw_type );
 
 	size_t element_bytes = 0;
 	if( type_info.baseType == "float" ){
@@ -180,12 +204,13 @@ xp_dref* dref_factory::saveDref( const std::string& name, const std::string type
 		std::cout << "******* UNKNOWN DATA TYPE:" << type_info.baseType << "\n";
 	}
 
-
+	size_t bytes_needed = 0;
+	size_t elements_needed = 0;
 	if( type_info.dimensions.size() > 0 ){
 		std::cout << " type: " << type_info.baseType;
 
-		std::cout << " arr_dims: " << type_info.dimensions.size();
-		size_t elements_needed = type_info.dimensions[0];
+		std::cout << " elements: " << type_info.dimensions.size();
+		elements_needed = type_info.dimensions[0];
 		std::cout << " d:" <<  type_info.dimensions[0];
 		if( type_info.dimensions.size() > 1 ){
 			for( size_t x=1; x < type_info.dimensions.size(); ++x ){
@@ -193,33 +218,27 @@ xp_dref* dref_factory::saveDref( const std::string& name, const std::string type
 				std::cout << " d:" <<  type_info.dimensions[x];
 			}
 		}
-		std::cout << " elements:" << elements_needed;
-
-		size_t bytes_needed = elements_needed * element_bytes;
-		std::cout << " bytes_needed:" << bytes_needed;
-
 		std::cout << "\n";
 
 	} //if array
 
 
+	std::cout << " elements:" << elements_needed;
+	bytes_needed = elements_needed * element_bytes;
+	std::cout << " bytes_needed:" << bytes_needed;
+	std::cout << "\n";
 
-	xp_dref* dr;
 
-	//this is optional so we can load from DataRefs.txt without error logs
-	if ( try_find ) {
-		dr = findDref( name );
-		if ( dr ) {
-			std::cout << "  saveDref: dref found existing [" << name << "]\n";
-			return dr;
-		}
-	}
+	xp_drefs_params create_params;
+	create_params.name = name;
+	create_params.type = xp_dref_type::dref_Generic;
+	create_params.typeName_Raw = raw_type;
 
-	//FIXME: use our parsed type data above to affect the dref created here
-	// - tag the new dref as an array type if needed
-	// - call for malloc so we have some raw backing memory for the required array storage
-	// - add appropriate wrapper fns's and wire them to the SetDatavX and GetDatavX functions of the SDK
-	dr = new xp_dref( name, xp_dref_type::dref_Generic, type );
+	create_params.typeName = type_info.baseType;
+	create_params.elements_needed = elements_needed; //0 elements = not array
+	create_params.bytes_needed = bytes_needed;
+
+	auto dr = new xp_dref( create_params );
 	XPHost::m_dref_pool.push_back(dr);
 
 	//std::cout << "  dref created: ret new.\n";
@@ -235,30 +254,47 @@ void dref_factory::init(){
 		throw std::runtime_error( "FXPLM/dref_factory::init() - pool is filled." );
 	}
 
-
 	std::cout << "FXPLM/ dref_factory::init()\n";
 
-	//		auto dr_frp = new xp_dref_frp( "sim/time/framerate_period", xp_dref_type::dref_FrameRatePeriod, "float" );
-	//		dref_pool.push_back(dr_frp);
+	{
+		xp_drefs_params create_params;
+		create_params.name = "sim/graphics/view/modelview_matrix";
+		create_params.type = xp_dref_type::dref_ModelViewMatrix;
+		create_params.typeName = "float[4]";
+		// ReSharper disable once CppDFAMemoryLeak
+		auto dr = new xp_dref(create_params);
+		XPHost::m_dref_pool.push_back(dr);
+	}
 
-	// ReSharper disable once CppDFAMemoryLeak
-	auto dr_mvm = new xp_dref( "sim/graphics/view/modelview_matrix", xp_dref_type::dref_ModelViewMatrix, "float[4?]" );
-	XPHost::m_dref_pool.push_back(dr_mvm);
+	{
+		xp_drefs_params create_params;
+		create_params.name = "sim/graphics/view/projection_matrix";
+		create_params.type = xp_dref_type::dref_ProjectionMatrix;
+		create_params.typeName = "float[4]";
+		// ReSharper disable once CppDFAMemoryLeak
+		auto dr = new xp_dref(create_params);
+		XPHost::m_dref_pool.push_back(dr);
+	}
 
-	// ReSharper disable once CppDFAMemoryLeak
-	auto dr_pm = new xp_dref( "sim/graphics/view/projection_matrix", xp_dref_type::dref_ProjectionMatrix, "float[4?]" );
-	XPHost::m_dref_pool.push_back(dr_pm);
+	{
+		xp_drefs_params create_params;
+		create_params.name = "sim/graphics/view/viewport";
+		create_params.type = xp_dref_type::dref_Viewport;
+		create_params.typeName = "float?"; //FIXME: resolve type label
+		// ReSharper disable once CppDFAMemoryLeak
+		auto dr = new xp_dref(create_params);
+		XPHost::m_dref_pool.push_back(dr);
+	}
 
-	// ReSharper disable once CppDFAMemoryLeak
-	auto dr_vp = new xp_dref( "sim/graphics/view/viewport", xp_dref_type::dref_Viewport, "float" );
-	XPHost::m_dref_pool.push_back(dr_vp);
-
-	// ReSharper disable once CppDFAMemoryLeak
-	auto dr_vr = new xp_dref( "sim/graphics/VR/enabled", xp_dref_type::dref_VREnabled, "int" );
-	XPHost::m_dref_pool.push_back(dr_vr);
-
-	//FIXME: need to try and load the DataRefs.txt file here.
-	// drefs file is loaded elsewhere...
+	{
+		xp_drefs_params create_params;
+		create_params.name = "sim/graphics/VR/enabled";
+		create_params.type = xp_dref_type::dref_VREnabled;
+		create_params.typeName = "int?"; //FIXME: resolve type label
+		// ReSharper disable once CppDFAMemoryLeak
+		auto dr = new xp_dref(create_params);
+		XPHost::m_dref_pool.push_back(dr);
+	}
 
 };
 
