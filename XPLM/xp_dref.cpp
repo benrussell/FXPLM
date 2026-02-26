@@ -77,7 +77,7 @@ xp_dref::~xp_dref() {
 
 //xp_dref::xp_dref( std::string name, xp_dref_type type, std::string typeName ){
 xp_dref::xp_dref( xp_drefs_params params ){
-//        std::cout << "xp_dref() constructor ********\n";
+
 	drefName = std::move(params.name);
 	drefType = params.type;
 
@@ -86,11 +86,21 @@ xp_dref::xp_dref( xp_drefs_params params ){
 
 	m_elements = params.elements_needed;
 	m_blob_size = params.bytes_needed;
+
 	//m_blob = malloc( m_blob_size );
 	m_blob = calloc( 1, m_blob_size );
 
 	// - call for malloc so we have some raw backing memory for the required array storage
 	if ( !m_blob) {
+
+		/* //extra debug info
+		std::cout << "xp_dref() ctor fail ***:";
+		std::cout << " elements_needed:" << params.elements_needed;
+		std::cout << " bytes_needed:" << params.bytes_needed;
+		std::cout << " name:" << drefName;
+		std::cout << "\n";
+		// */
+
 		throw std::runtime_error("xp_dref ctor, could not alloc blob.");
 	}
 

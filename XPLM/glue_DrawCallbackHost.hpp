@@ -149,7 +149,7 @@ public:
 private:
 
 
-	void draw_triangle_avhost(){
+	void draw_triangle_dcb_host(){
 		/* Render here */
 
 		glPushMatrix();

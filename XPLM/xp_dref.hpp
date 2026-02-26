@@ -60,14 +60,14 @@ enum xp_dref_type{
 
 
 struct xp_drefs_params {
-	std::string name; //dref name
-	xp_dref_type type; //enum, used for hooking to fn handlers for gl
-	std::string typeName_Raw; //type as written in drefs.txt?
-	std::string typeName; //human-readable type name (float,int,etc)
+	std::string name{}; //dref name
+	xp_dref_type type=dref_Generic; //enum, used for hooking to fn handlers for gl
+	std::string typeName_Raw{}; //type as written in drefs.txt?
+	std::string typeName{}; //human-readable type name (float,int,etc)
 	//ParsedType parsedType;
 
-	size_t elements_needed;
-	size_t bytes_needed;
+	size_t elements_needed=0;
+	size_t bytes_needed=0;
 
 	//XPLMDataTypeID sdk_type;
 
