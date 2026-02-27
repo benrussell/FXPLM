@@ -166,9 +166,8 @@ XPLM_API void       XPLMDrawString(
 		const char * inChar,
 		int * inWordWrapWidth,    /* Can be NULL */
 		XPLMFontID           inFontID) {
-// ... (omitted logging)
 
-
+	/* //debug log
 	FXPLM_DebugLogHeader("XPLMDrawString");
 	std::cout << " x:" << inXOffset;
 	std::cout << " y:" << inYOffset;
@@ -178,6 +177,7 @@ XPLM_API void       XPLMDrawString(
 	}
 	std::cout << " font_id:" << inFontID;
 	std::cout << "\n";
+	// */
 
 
 	// FIX 1: lam_drawBox needs pixel dimensions, and UVs must be normalized here
@@ -224,7 +224,7 @@ XPLM_API void       XPLMDrawString(
 
 	glPushMatrix();
 	glTranslatef(inXOffset,
-			  	inYOffset - 10.f,
+			  	inYOffset - 10,
 			  	0.f);
 
 	float pen_x=0.f;
