@@ -217,25 +217,25 @@ xp_dref* dref_factory::saveDref( const std::string& name, const std::string raw_
 	size_t bytes_needed = 0;
 	size_t elements_needed = 0;
 	if( type_info.dimensions.size() > 0 ){
-		std::cout << " type: " << type_info.baseType;
+//		std::cout << " type: " << type_info.baseType;
 
-		std::cout << " elements: " << type_info.dimensions.size();
+//		std::cout << " elements: " << type_info.dimensions.size();
 		elements_needed = type_info.dimensions[0];
-		std::cout << " d:" <<  type_info.dimensions[0];
+//		std::cout << " d:" <<  type_info.dimensions[0];
 		if( type_info.dimensions.size() > 1 ){
 			for( size_t x=1; x < type_info.dimensions.size(); ++x ){
 				elements_needed = elements_needed * type_info.dimensions[x];
-				std::cout << " d:" <<  type_info.dimensions[x];
+//				std::cout << " d:" <<  type_info.dimensions[x];
 			}
 		}
-		std::cout << "\n";
+//		std::cout << "\n";
 
 	} //if array
 
 
-	std::cout << " elements:" << elements_needed;
+//	std::cout << " elements:" << elements_needed;
 	bytes_needed = elements_needed * element_bytes;
-	std::cout << " bytes_needed:" << bytes_needed;
+//	std::cout << " bytes_needed:" << bytes_needed;
 	std::cout << "\n";
 
 
