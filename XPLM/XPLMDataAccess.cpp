@@ -68,11 +68,15 @@ void XPLMSetDatavi( XPLMDataRef dref_h, int* new_values, int offset, int count )
 
 void XPLMSetDataf( XPLMDataRef dref_h, float new_value ){
 
-    // FXPLM_DebugLogHeader("XPLMSetDataf");
-    // std::cout << " dref_h:" << dref_h;
-    // std::cout << " dref_h->name:" << dref_h->drefName;
-    // std::cout << " val:" << new_value;
-    // std::cout << "\n";
+	/* //debug
+     FXPLM_DebugLogHeader("XPLMSetDataf");
+     std::cout << " dref_h:" << dref_h;
+     if( dref_h ){
+		 std::cout << " dref_h->name:" << dref_h->drefName;
+	 }
+     std::cout << " val:" << new_value;
+     std::cout << "\n";
+     // */
 
     if( dref_h ){
         auto dr = reinterpret_cast<xp_dref*>(dref_h);
@@ -217,10 +221,14 @@ float XPLMGetDataf( XPLMDataRef dref_h ){
 
 int XPLMGetDatai( XPLMDataRef dref_h ){
 
-	// FXPLM_DebugLogHeader("XPLMGetDatai");
-	// std::cout << " dref_h:" << dref_h;
-	// std::cout << " dref_h->name:" << dref_h->drefName;
-	// std::cout << "\n";
+	/* //debug data
+	 FXPLM_DebugLogHeader("XPLMGetDatai");
+	 std::cout << " dref_h:" << dref_h;
+	 if( dref_h ){
+		 std::cout << " dref_h->name:" << dref_h->drefName;
+	 }
+	 std::cout << "\n";
+	 // */
 
 	if( dref_h ){
 		auto dr = reinterpret_cast<xp_dref*>(dref_h);
@@ -357,7 +365,19 @@ XPLMDataRef XPLMRegisterDataAccessor(
     std::cout << "\n\t";
 
 
-    auto dr = dref_factory::saveDref(inDataName, "float");
+    //FIXME: add more type handlers
+    //FIXME: XP SDK has a dref type introspection fn?
+    std::string s_dref_type_name="undef";
+    if( inReadInt ){
+    	s_dref_type_name = "int";
+    }else if( inReadFloat ){
+		s_dref_type_name = "float";
+	}else if( inReadDouble ){
+		s_dref_type_name = "double";
+	}
+
+    std::cout << " dref_type_name:" << s_dref_type_name << "\n";
+    auto dr = dref_factory::saveDref(inDataName, s_dref_type_name);
 
     if( dr ){
         dr->m_vecPluginConsumers.push_back( global_target_plugin );
