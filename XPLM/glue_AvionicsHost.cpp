@@ -174,6 +174,14 @@ void AvionicsHost::draw_composite(){
 		// Enable 2D texture
 		glEnable(GL_TEXTURE_2D);
 
+		//glDisable(GL_COLOR_MATERIAL);
+		//glDisable(GL_LIGHTING);
+		//glDisable(GL_FRAMEBUFFER_SRGB);
+		//glDisableClientState(GL_COLOR_ARRAY);
+		//glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+		glColor4f(1.0, 1.0, 1.0, 1.0);
+
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
