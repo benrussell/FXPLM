@@ -58,7 +58,7 @@ typedef void* XPLMAvionicsKeyboard_f;
 typedef void* XPLMAvionicsBrightness_f;
 
 
-typedef struct {
+typedef struct XPLMCreateAvionics_t{
     // Used to inform XPLMCreateAvionicsEx() of the SDK version you compiled against; should always be set to sizeof(XPLMCreateAvionics_t)
     int                       structSize;
     // Width of the device's screen in pixels.
@@ -196,7 +196,7 @@ enum [[maybe_unused]] XPLMWindowLayer{
 
 
 
-typedef struct {
+typedef struct XPLMCreateWindow_t{
     // Used to inform XPLMCreateWindowEx() of the SDK version you compiled against; should always be set to sizeof(XPLMCreateWindow_t)
     int                       structSize;
     // Left bound, in global desktop boxels
@@ -302,10 +302,35 @@ XPLM_API void       XPLMDestroyAvionics(
 // https://developer.x-plane.com/sdk/XPLMDrawingPhase/
 
 enum [[maybe_unused]] XPLMDrawingPhase{
-	xplm_Phase_Airplanes=25,
-    xplm_Phase_Panel=40,
-    xplm_Phase_Window=45 //SASL3 uses this
+
+	/* Deprecated as of XPLM302 */
+	xplm_Phase_FirstScene      = 0,   // Earliest 3-D draw point
+	xplm_Phase_Terrain         = 5,   // Land and water
+	xplm_Phase_Airports        = 10,  // Runways and airport detail
+	xplm_Phase_Vectors         = 15,  // Roads, trails, trains
+	xplm_Phase_Objects         = 20,  // 3-D objects
+	xplm_Phase_Airplanes       = 25,  // External aircraft views
+										//SASL3 uses this
+	xplm_Phase_LastScene       = 30,  // Last 3-D draw point
+
+	/* Active Phases */
+	xplm_Phase_Modern3D        = 31,  // Modern 3-D drawing
+	xplm_Phase_FirstCockpit    = 35,  // First 2-D draw point
+	xplm_Phase_Panel           = 40,  // Static aircraft panel
+	xplm_Phase_Gauges          = 45,  // Moving aircraft parts
+										//SASL3 uses this
+	xplm_Phase_Window          = 50,  // Floating plugin windows
+	xplm_Phase_LastCockpit     = 55,  // Last 2-D draw point
+
+	/* Removed as of XPLM300 (Use XPLMMap API) */
+	xplm_Phase_LocalMap3D      = 100,
+	xplm_Phase_LocalMap2D      = 101,
+	xplm_Phase_LocalMapProfile = 102
+
 };
+
+
+
 
 typedef int (* XPLMDrawCallback_f)(
                          XPLMDrawingPhase     inPhase,
