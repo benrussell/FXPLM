@@ -567,85 +567,103 @@ XPLM_API int FXPLM_HandleWindowClick( float x, float y ){
 
 
 
+int draw_callback_processor( const std::vector<XPLMDrawingPhase> phases ) {
 
+	// 2. Create buckets for each phase
+	// Map phase enum to a list of callbacks for that specific phase
+	std::map<XPLMDrawingPhase, std::vector<DrawCallbackHost*>> buckets;
 
-
-XPLM_API int FXPLM_DrawCBS_3D() {
-
-	// This function expects the OpenGL 3D modes to be set up correctly by the host app.
-
-	for( auto p: XPHost::m_vecPlugins ){
-		if ( p->m_plugin_is_enabled ) {
-
-			//FIXME: loop all plugins and callbacks and sort them into
-			// buckets so we can do a multi-phase rendering order
-			// as-is the callbacks are called in a first-registered first-called order.
-			// phase is mostly ignored.
-
-			for( auto dev: p->m_vecDrawCallbackHost ){
-				//this is a 3D callback phase filter.
-				//all other phases are ingored.
-				switch(dev->m_phase){
-					case xplm_Phase_FirstScene:
-					case xplm_Phase_Terrain:
-					case xplm_Phase_Airports:
-					case xplm_Phase_Vectors:
-					case xplm_Phase_Objects:
-					case xplm_Phase_Airplanes:
-					case xplm_Phase_LastScene:
-						dev->bake();
+	// 3. Filtering Pass: Sort callbacks into buckets
+	for (auto p : XPHost::m_vecPlugins) {
+		if (p->m_plugin_is_enabled) {
+			for (auto dev : p->m_vecDrawCallbackHost) {
+				// Only bucket the phases we care about for 3D drawing
+				for (auto phase : phases) {
+					if (dev->m_phase == phase) {
+						buckets[phase].push_back(dev);
 						break;
+					}
+				}
+			}
+		}
+	}
 
-					default:
-						break;
-				} //check phase
-			} //loop draw cbs
-		} //plugin enabled?
-	} //loop plugins
+	// 4. Execution Pass: Call bake() in the specific phase order
+	for (auto phase : phases) {
+		for (auto dev : buckets[phase]) {
+			dev->bake();
+		}
+	}
+
 
 	return 1;
+
 }
 
 
 
 
+XPLM_API int FXPLM_DrawCBS_3D() {
+	// 1. Define the phases of interest in the desired execution order
+	static const std::vector<XPLMDrawingPhase> phases = {
+		xplm_Phase_FirstScene,
+		xplm_Phase_Terrain,
+		xplm_Phase_Airports,
+		xplm_Phase_Vectors,
+		xplm_Phase_Objects,
+		xplm_Phase_Airplanes,
+		xplm_Phase_LastScene
+	};
+
+	return draw_callback_processor(phases);
+
+}
+
+
+
 XPLM_API int FXPLM_DrawCBS() {
+
+	// 1. Define the phases of interest in the desired execution order
+	static const std::vector<XPLMDrawingPhase> phases = {
+		xplm_Phase_FirstCockpit,
+		xplm_Phase_Panel,
+		xplm_Phase_Gauges,
+		xplm_Phase_Window
+	};
+
+	return draw_callback_processor(phases);
+
+}
+
+
+
+
+
+XPLM_API int FXPLM_Draw_AvionicsDevices() {
 
 	for( auto p: XPHost::m_vecPlugins ){
 		if ( p->m_plugin_is_enabled ) {
 
-			//FIXME: feels like the avionics host callback should be its own thing?
 			for( auto dev: p->m_vecAvionicsHost ){
 				// This is an FBO bake loop.
 				// This is NOT imgui calling code.
 				dev->bake();
 			}
 
-			//FIXME: loop all plugins and callbacks and sort them into
-			// buckets so we can do a multi-phase rendering order
-			// as-is the callbacks are called in a first-registered first-called order.
-			// phase is mostly ignored.
-
-			for( auto dev: p->m_vecDrawCallbackHost ){
-				// this is a 2D drawing phase callback filter.
-				// all other phases are ignored.
-				switch(dev->m_phase){
-					case xplm_Phase_FirstCockpit:
-					case xplm_Phase_Panel:
-					case xplm_Phase_Gauges:
-					case xplm_Phase_Window:
-						dev->bake();
-						break;
-
-					default:
-						break;
-				} //check phase
-			} //loop callbacks
 		} //enabled?
 	} //plugins
 
 	return 1;
 }
+
+
+
+
+
+
+
+
+
 
 
 

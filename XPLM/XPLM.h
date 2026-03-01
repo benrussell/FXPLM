@@ -99,6 +99,7 @@ XPLM_API int FXPLM_RunFLCBS();
 
 XPLM_API int FXPLM_DrawCBS_3D();
 XPLM_API int FXPLM_DrawCBS();
+XPLM_API int FXPLM_Draw_AvionicsDevices();
 
 XPLM_API int FXPLM_DrawWindows();
 
