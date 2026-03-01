@@ -28,7 +28,9 @@
 #include "../third_party/timer/src/Timer.h"
 
 #include "glue_FBO.hpp"
-#include <gz_shader.h>
+//#include <gz_shader.h>
+
+#include <string>
 
 
 class AvionicsHost {
@@ -61,7 +63,7 @@ public:
 	gz_fbo* m_bezel_fbo;
 	gz_fbo* m_composite_fbo;
 
-	gz::shader m_shader;
+	//gz::shader m_shader;
 
 
 	explicit AvionicsHost( XPLMCreateAvionics_t* p );

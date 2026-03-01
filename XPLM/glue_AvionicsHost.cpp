@@ -56,6 +56,7 @@ AvionicsHost::AvionicsHost( XPLMCreateAvionics_t* p ){
 
 
 
+#if 0
 
 
 	auto lam_loadFile = [](const std::string& filename) -> std::string {
@@ -68,7 +69,6 @@ AvionicsHost::AvionicsHost( XPLMCreateAvionics_t* p ){
 		buffer << file.rdbuf();
 		return buffer.str();
 	};
-
 
 
 	std::cout << " loading crt shader..\n";
@@ -106,7 +106,7 @@ AvionicsHost::AvionicsHost( XPLMCreateAvionics_t* p ){
 		std::cerr << "An error occurred: " << e.what() << std::endl;
 	}
 
-
+#endif
 
 
 
@@ -228,14 +228,14 @@ void AvionicsHost::draw_composite(){
 	glPushMatrix();
 	if( screen_first ){
 
-		m_shader.enable();
-		m_shader.setUniFloat("u_time", m_timer.getElapsedTime());
+		//m_shader.enable();
+		//m_shader.setUniFloat("u_time", m_timer.getElapsedTime());
 
 		glPushMatrix();
 			glTranslatef( m_params->screenOffsetX, m_params->screenOffsetY, 0 );
 			lam_drawTexturedQuad(m_screen_fbo->m_width, m_screen_fbo->m_height, m_screen_fbo->m_tex );
 		glPopMatrix();
-		m_shader.disable();
+		//m_shader.disable();
 
 		lam_drawTexturedQuad(m_bezel_fbo->m_width, m_bezel_fbo->m_height, m_bezel_fbo->m_tex );
 
