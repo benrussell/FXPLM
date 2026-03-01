@@ -122,18 +122,20 @@ gz_fbo::~gz_fbo(){
 
 
 
-void gz_fbo::push_fbo() const{
+void gz_fbo::push_fbo( bool clear_content ) const{
 //		std::cout<<"push fbo\n";
 
 	glBindFramebuffer(GL_FRAMEBUFFER, m_fbo); // Bind the FBO
 
-	glClearColor(
-			m_FboClearColorRGBA[0],
-			m_FboClearColorRGBA[1],
-			m_FboClearColorRGBA[2],
-			m_FboClearColorRGBA[3]
-	);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // Clear the color and depth buffer
+	if( clear_content ) {
+		glClearColor(
+				m_FboClearColorRGBA[0],
+				m_FboClearColorRGBA[1],
+				m_FboClearColorRGBA[2],
+				m_FboClearColorRGBA[3]
+		);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // Clear the color and depth buffer
+	}
 
 
 #if 1 //FBO::push_fbo()

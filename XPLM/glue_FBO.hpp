@@ -49,7 +49,7 @@ public:
 	gz_fbo(int width, int height, float fAlpha=1.0f );
 	~gz_fbo();
 
-	void push_fbo() const;
+	void push_fbo( bool clear_content=true ) const;
 	//dont make this static.
 	void pop_fbo() const;
 
