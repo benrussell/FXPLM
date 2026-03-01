@@ -65,9 +65,9 @@ public:
 
 //	float m_FboClearColorRGBA[4]={0.5, 0.0, 0.5, 1.0};
 
-	gz_fbo* m_screen_fbo;
+	//gz_fbo* m_screen_fbo;
 
-	gz::shader m_shader;
+	//gz::shader m_shader;
 
     XPLMDrawCallback_f m_draw_cb_f;
     XPLMDrawingPhase m_phase;
@@ -90,13 +90,13 @@ public:
         m_before = inWantsBefore;
         m_refcon = inRefcon;
 
-        const int screenWidth=1024;
-        const int screenHeight=1024;
+        //const int screenWidth=1024;
+        //const int screenHeight=1024;
 
 		m_timer.start();
 
-		m_screen_fbo = new gz_fbo(screenWidth, screenHeight );
-        std::cout << "  glue_DrawCallBackHost: fbo tex_id: " << m_screen_fbo->m_tex << "\n";
+		//m_screen_fbo = new gz_fbo(screenWidth, screenHeight );
+        //std::cout << "  glue_DrawCallBackHost: fbo tex_id: " << m_screen_fbo->m_tex << "\n";
 
 	}
 
@@ -107,7 +107,7 @@ public:
 		//std::cout <<" destruct:" << m_deviceId << "\n";
 
 		//delete m_bezel_fbo;
-		delete m_screen_fbo;
+		//delete m_screen_fbo;
 		//delete m_composite_fbo;
 	}
 
@@ -138,9 +138,10 @@ public:
 
 		//bake the screen.
 		m_bakeStart_Screen = m_timer.getElapsedTimeInMilliSec();
-			m_screen_fbo->push_fbo();
+			//m_screen_fbo->push_fbo();
 				draw_screen();
-			m_screen_fbo->pop_fbo();
+				//draw_triangle_dcb_host();
+			//m_screen_fbo->pop_fbo();
 		m_bakeStop_Screen = m_timer.getElapsedTimeInMilliSec();
 
 	}
