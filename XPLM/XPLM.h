@@ -38,7 +38,7 @@
 
 
 
-#define FONT_HEIGHT_PX 12.0f
+#define FONT_HEIGHT_PX 13.0f
 #define ATLAS_SIZE 512
 #define FIRST_CHAR 32 // Space
 #define CHAR_COUNT 96 // ASCII 32 to 127

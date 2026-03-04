@@ -186,7 +186,7 @@ XPLM_API void       XPLMDrawString(
 						   float xoff, float yoff,               // Pixel Offsets
 						   float width, float height ) {         // Pixel Size (px1-px0, py1-py0)
 
-		glColor4f( inColorRGB[0],inColorRGB[1],inColorRGB[2],1.0f );
+		//glColor4f( inColorRGB[0],inColorRGB[1],inColorRGB[2],1.0f );
 
 		// Normalize pixel coordinates to get true UVs (0.0 to 1.0)
 		float u0 = px0 / ATLAS_SIZE;
@@ -216,8 +216,12 @@ XPLM_API void       XPLMDrawString(
 	};
 
 	// FIX 2: Enable Blending (was commented out)
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	// glEnable(GL_BLEND);
+	// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.5f); // Adjust 0.5f to control sharpness
+
 
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture( GL_TEXTURE_2D, g_font_atlas_texture );
@@ -268,6 +272,10 @@ XPLM_API void       XPLMDrawString(
 
 	glPopMatrix();
 
+	glDisable(GL_ALPHA_TEST);
+	//glAlphaFunc(GL_GREATER, 0.5f); // Adjust 0.5f to control sharpness
+
+
 	glDisable(GL_BLEND);
 	glDisable(GL_TEXTURE_2D);
 }
@@ -295,7 +303,7 @@ XPLM_API void       XPLMDrawTranslucentDarkBox(
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		// 2. Set Color: Dark Grey (0.2) at 50% Alpha (0.5)
-		glColor4f(0.2f, 0.2f, 0.2f, 0.5f);
+		glColor4f(0.2f, 0.2f, 0.2f, 0.25f);
 
 		// 3. Draw Geometry
 		glBegin(GL_QUADS);
@@ -325,8 +333,8 @@ XPLM_API void       XPLMGetFontDimensions(
 	// font 0 is mono spaced
 	// font 18 is proportional
 
-	FXPLM_DebugLogHeader("HC/ XPLMGetFontDimensions");
-	std::cout << " id:" << inFontID;
+//	FXPLM_DebugLogHeader("HC/ XPLMGetFontDimensions");
+//	std::cout << " id:" << inFontID;
 
 	if( outCharWidth ){
 	//	std::cout << " char_w:" << *outCharWidth;
@@ -339,10 +347,10 @@ XPLM_API void       XPLMGetFontDimensions(
 	}
 	if( outDigitsOnly ){
 		*outDigitsOnly = 0;
-		std::cout << " digits_only:" << *outDigitsOnly;
+//		std::cout << " digits_only:" << *outDigitsOnly;
 	}
 
-	std::cout << " / ret: w:7 h:10 digits:0\n";
+//	std::cout << " / ret: w:7 h:10 digits:0\n";
 
 }
 
@@ -357,9 +365,9 @@ XPLM_API int        XPLMGetTexture(
     //FIXME: return a GL texture number that points to something useful
     switch( inTexture ){
     	case xplm_Tex_GeneralInterface:
-    		std::cout << " general_interface";
-    		//return 1;
-    		break;
+    		std::cout << " general_interface\n";
+    		return 4;
+    		//break;
     	case xplm_Tex_AircraftPaint:
     		std::cout << " acf_paint";
     		//return 2;

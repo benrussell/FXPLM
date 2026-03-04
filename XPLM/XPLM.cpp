@@ -179,8 +179,13 @@ void init_stbtt()
 				 GL_ALPHA, GL_UNSIGNED_BYTE, bitmap);
 #endif
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+
 
 	// --- 4. Cleanup ---
 	delete[] bitmap;
@@ -738,14 +743,15 @@ void FXPLM_TestGL() {
 	FXPLM_DebugLogHeader("FXPLM_TestGL");
 	std::cout << "\n";
 
-//	{
-//		GLuint tex_foo;
-//		glGenTextures(1, &tex_foo);
-//		std::cout << "  tex_foo:" << tex_foo << "\n";
-//
-//		gz::gfx::tex::load( "/Users/br/Downloads/ferris.png", tex_foo );
-//
-//	}
+
+	{
+		GLuint tex_foo;
+		glGenTextures(1, &tex_foo);
+		std::cout << "  tex_foo:" << tex_foo << "\n";
+
+		gz::gfx::tex::load( "Resources/bitmaps/interface.png", tex_foo );
+
+	}
 
 
 	init_stbtt();
