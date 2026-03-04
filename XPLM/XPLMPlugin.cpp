@@ -193,6 +193,10 @@ XPLM_API void       XPLMReloadPlugins(void) {
 XPLM_API int        XPLMIsFeatureEnabled(
                          const char *         inFeature) {
 
+	FXPLM_DebugLogHeader("XPLMIsFeatureEnabled");
+	std::cout << " query:" << inFeature;
+	std::cout << "\n";
+
 
 	if( global_target_plugin ){
 		const auto& flags = global_target_plugin->m_mapFeatureFlags;
