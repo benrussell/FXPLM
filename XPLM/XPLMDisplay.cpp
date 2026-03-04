@@ -349,7 +349,7 @@ XPLM_API int XPLMRegisterDrawCallback(
         void *               inRefcon){
 
 	FXPLM_DebugLogHeader("XPLMRegisterDrawCallback");
-	std::cout << " cb:" << inCallback;
+	std::cout << " cb:" << (void*)inCallback;
 	std::cout << " phase:" << inPhase;
 	std::cout << " wants_before:" << inWantsBefore;
 	std::cout << " refcon:" << inRefcon;
