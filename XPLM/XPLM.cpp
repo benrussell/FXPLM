@@ -281,7 +281,9 @@ XPLM_API int FXPLM_LoadPlugin( const char* fname ) {
 
 	int ret = 0;
 
+#if FXPLM_USE_LOAD_EXCEPTIONS
 	try {
+#endif
 		Plugin *p = new Plugin(fname);
 
 		// This must happen so that plugins can query their own data during XPluginStart
@@ -335,12 +337,14 @@ XPLM_API int FXPLM_LoadPlugin( const char* fname ) {
 #endif
 #undef FXPLM_SEARCH_FOR_PLUGIN_BY_SIG
 
+#if FXPLM_USE_LOAD_EXCEPTIONS
 	}catch (const std::runtime_error& e) {
 
 		std::cerr << "FXPLM/ load_plugin/ runtime_error: " << e.what() << std::endl;
 		XPHost::m_load_plugin_error_msg = e.what();
 
 	}
+#endif
 
 	return ret;
 
