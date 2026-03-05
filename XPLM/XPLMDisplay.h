@@ -227,6 +227,39 @@ typedef struct XPLMCreateWindow_t{
 
 
 
+typedef struct XPLMCreateWindow_t_legacy{
+	// Used to inform XPLMCreateWindowEx() of the SDK version you compiled against; should always be set to sizeof(XPLMCreateWindow_t)
+	int                       structSize;
+	// Left bound, in global desktop boxels
+	int                       left;
+	// Top bound, in global desktop boxels
+	int                       top;
+	// Right bound, in global desktop boxels
+	int                       right;
+	// Bottom bound, in global desktop boxels
+	int                       bottom;
+	int                       visible;
+	XPLMDrawWindow_f          drawWindowFunc;
+	// A callback to handle the user left-clicking within your window (or NULL to ignore left clicks)
+	XPLMHandleMouseClick_f    handleMouseClickFunc;
+	XPLMHandleKey_f           handleKeyFunc;
+	XPLMHandleCursor_f        handleCursorFunc;
+	XPLMHandleMouseWheel_f    handleMouseWheelFunc;
+	// A reference which will be passed into each of your window callbacks. Use this to pass information to yourself as needed.
+	void *                    refcon;
+	/*
+	// Specifies the type of X-Plane 11-style "wrapper" you want around your window, if any
+	XPLMWindowDecoration      decorateAsFloatingWindow;
+	XPLMWindowLayer           layer;
+	// A callback to handle the user right-clicking within your window (or NULL to ignore right clicks)
+	XPLMHandleMouseClick_f    handleRightClickFunc;
+	*/
+} XPLMCreateWindow_t_legacy;
+
+
+
+
+
 XPLM_API void XPLMGetScreenBoundsGlobal(
         int *outLeft,    /* Can be NULL */
         int *outTop,    /* Can be NULL */
