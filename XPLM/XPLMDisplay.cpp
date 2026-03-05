@@ -480,11 +480,12 @@ XPLM_API void       XPLMSetWindowRefCon(
                          void *               inRefcon) {
 
 	FXPLM_DebugLogHeader("XPLMSetWindowRefCon");
-	std::cout << "  id:" << inWindowID << "";
+	std::cout << "  inWindowID:" << inWindowID << "";
 	std::cout << "  refcon:" << (void*)inRefcon << "";
 
 	if( inWindowID == nullptr ){
-		std::cout << "  ****** ignored.\n";
+		//throw std::runtime_error("window refcon is nullptr");
+		std::cout << "  ****** target window is nullptr, ignored.\n";
 		return;
 	}
 
