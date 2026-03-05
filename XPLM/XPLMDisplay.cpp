@@ -42,10 +42,35 @@ extern AvionicsHost* dev;
 
 
 
+
+void CenterExistingWindow(XPLMCreateWindow_t *params) {
+	int screenWidth, screenHeight;
+	XPLMGetScreenSize(&screenWidth, &screenHeight);
+
+	// 1. Determine target size from existing struct
+	int windowWidth  = params->right - params->left;   // (125 - (-125)) = 250
+	int windowHeight = params->top - params->bottom;  // (75 - (-75)) = 150
+
+	// 2. Find the screen center points
+	int centerX = screenWidth / 2;
+	int centerY = screenHeight / 2;
+
+	// 3. Re-assign l, t, r, b centered on the screen
+	params->left   = centerX - (windowWidth / 2);
+	params->right  = centerX + (windowWidth / 2);
+	params->top    = centerY + (windowHeight / 2);
+	params->bottom = centerY - (windowHeight / 2);
+}
+
+
+
 XPLM_API XPLMWindowID XPLMCreateWindowEx( XPLMCreateWindow_t *params ){
 
 	FXPLM_DebugLogHeader("XPLMCreateWindowEx");
     std::cout << " params: " << std::hex << params << std::dec;
+
+
+	CenterExistingWindow(params);
 
 
 	//std::cout << " params size is good. taking a copy of the struct..\n";
@@ -63,6 +88,14 @@ XPLM_API XPLMWindowID XPLMCreateWindowEx( XPLMCreateWindow_t *params ){
 
     std::cout << std::hex << "  drawWindowFunc:" << (void*)params->drawWindowFunc;
     std::cout << "  refcon: " << params->refcon << std::dec;
+
+
+	if( params->structSize == sizeof(XPLMCreateWindow_t) ) {
+		std::cout << " decoration:" << params->decorateAsFloatingWindow;
+		std::cout << " layer:" << params->layer;
+		std::cout << " right_click_cb:" << (void*)params->handleRightClickFunc;
+	}
+
 
 
     std::cout << " / ret:" << std::hex << (void*)tmp_win << std::dec << "\n";
