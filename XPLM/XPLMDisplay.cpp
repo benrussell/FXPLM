@@ -79,18 +79,25 @@ XPLM_API void XPLMDestroyWindow( XPLMWindowID inWindowID ){
     std::vector<glue_WindowEx*> vecKeepers;
 	vecKeepers.reserve(global_target_plugin->m_vecWindowHandles.size());
 
-//    std::cout << "  finding window..\n";
+
+	bool win_h_is_valid = false;
+
     for( const auto& wh: global_target_plugin->m_vecWindowHandles ){
     	if( wh == inWindowID ) {
-//			std::cout << "   drop:" << wh << "\n";
+    		win_h_is_valid = true;
 		}else{
-//			std::cout << "   keep:" << wh << "\n";
 			vecKeepers.emplace_back( wh );
     	}
     }
 	global_target_plugin->m_vecWindowHandles.swap(vecKeepers );
 
-    delete (glue_WindowEx*)inWindowID;
+
+	if( win_h_is_valid ) {
+		delete (glue_WindowEx*)inWindowID;
+	}else {
+		std::cout << " *** invalid window handle. cannot destroy.\n";
+	}
+
 }
 
 
