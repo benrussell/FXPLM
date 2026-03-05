@@ -68,7 +68,7 @@ void load_datarefs() {
 	auto drefs = DataRefsTxtParse(rel_fname.c_str());
 
 	for ( const auto& dr: drefs.m_recs ) {
-		dref_factory::saveDref( dr.name, dr.type, false );
+		dref_factory::saveDref( dr.name, dr.type, true );
 	}
 
 	std::cout << "FXPLM/ search penalty: " << dref_factory::search_ctr << "\n";

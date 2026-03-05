@@ -236,7 +236,7 @@ xp_dref* dref_factory::saveDref( const std::string& name, const std::string raw_
 //	std::cout << " elements:" << elements_needed;
 	bytes_needed = elements_needed * element_bytes;
 //	std::cout << " bytes_needed:" << bytes_needed;
-	std::cout << "\n";
+	//std::cout << "\n";
 
 
 	xp_drefs_params create_params;
