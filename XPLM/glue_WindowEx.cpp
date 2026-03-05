@@ -28,9 +28,28 @@
 glue_WindowEx::glue_WindowEx(XPLMCreateWindow_t *params) {
 //	std::cout << "glue_WindowEx ctor:\n";
 
+#if 0
+	const size_t need_size = sizeof(XPLMCreateWindow_t);
+	const size_t legacy_size = sizeof(XPLMCreateWindow_t_legacy);
+
+	if( need_size != params->structSize ){
+		std::cout << "  params struct size mismatch/unknown\t";
+		std::cout << "  sizeof():" << need_size << " / p->size:" << params->structSize << "\n";
+		std::cout << "  legacy size:" << legacy_size << "\n";
+		//return nullptr;
+		throw std::runtime_error("cannot create window.");
+	}
+#endif
+
+
 //	std::cout << "  memcpy params\n";
 	m_params = new XPLMCreateWindow_t();
-	memcpy( m_params, params, sizeof(XPLMCreateWindow_t) );
+	memset( m_params, 0, sizeof(XPLMCreateWindow_t)); //init to 0's
+
+	const size_t cp_size = std::min(params->structSize, (int)sizeof(XPLMCreateWindow_t));
+	memcpy( m_params, params, cp_size );
+
+	//FIXME: m_params->structSize probably needs to be updated
 
 //	std::cout << "finished: glue_WindowEx ctor\n";
 }
