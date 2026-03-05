@@ -227,6 +227,14 @@ XPLM_API void       XPLMDrawString(
 	glBindTexture( GL_TEXTURE_2D, g_font_atlas_texture );
 
 	glPushMatrix();
+
+	glColor4f(
+		inColorRGB[0],
+		inColorRGB[1],
+		inColorRGB[2],
+		1.f
+		);
+
 	glTranslatef(inXOffset,
 			  	inYOffset - 10,
 			  	0.f);
@@ -288,14 +296,14 @@ XPLM_API void       XPLMDrawTranslucentDarkBox(
                          int                  inRight,
                          int                  inBottom) {
 
+#if 0
 	FXPLM_DebugLogHeader("XPLMDrawTranslucentDarkBox");
 	std::cout << " l:" << inLeft;
 	std::cout << " t:" << inTop;
 	std::cout << " r:" << inRight;
 	std::cout << " b:" << inBottom;
 	std::cout << "\n";
-
-	//FIXME: draw a fuckin box eh.
+#endif
 
 	auto lam_drawTranslucentBox = [](float left, float top, float right, float bottom) {
 		// 1. Enable Blending
@@ -359,38 +367,38 @@ XPLM_API void       XPLMGetFontDimensions(
 XPLM_API int        XPLMGetTexture(
                          XPLMTextureID        inTexture) {
 
-	FXPLM_DebugLogHeader("HC/ XPLMGetTexture");
-	std::cout << " inTexture:" << inTexture;
+	//FXPLM_DebugLogHeader("HC/ XPLMGetTexture");
+	//std::cout << " inTexture:" << inTexture;
 
     //FIXME: return a GL texture number that points to something useful
     switch( inTexture ){
     	case xplm_Tex_GeneralInterface:
-    		std::cout << " general_interface\n";
+    		//std::cout << " general_interface\n";
     		return 4;
     		//break;
     	case xplm_Tex_AircraftPaint:
-    		std::cout << " acf_paint";
+    		//std::cout << " acf_paint";
     		//return 2;
     		break;
     	case xplm_Tex_AircraftLiteMap:
-    		std::cout << " acf_lite_map";
+    		//std::cout << " acf_lite_map";
     		//return 3;
     		break;
     	case xplm_Tex_Radar_Pilot:
-    		std::cout << " radar_pilot";
+    		//std::cout << " radar_pilot";
     		//return 4;
     		break;
     	case xplm_Tex_Radar_Copilot:
-    		std::cout << " radar_copilot";
+    		//std::cout << " radar_copilot";
     		//return 5;
     		break;
 
     	default:
-			std::cout<<"unknown tex query id\n";
+			//std::cout<<"unknown tex query id\n";
 			break;
     }
 
-	std::cout << "\n";
+	//std::cout << "\n";
 
 	return 0;
 
