@@ -92,7 +92,7 @@ void XPLMSetDataf( XPLMDataRef dref_h, float new_value ){
 
 int XPLMGetDatavi( XPLMDataRef dref_h, int* buffer, int offset, int count ){
 
-#if 1
+#if 0
     FXPLM_DebugLogHeader("HC/ XPLMGetDatavi");
     std::cout << " dref_h:" << dref_h;
     std::cout << " dref_h->name:" << dref_h->drefName;
@@ -103,15 +103,20 @@ int XPLMGetDatavi( XPLMDataRef dref_h, int* buffer, int offset, int count ){
 #endif
 
 
-	//random hard coded values...... screen size? viewport?
-
-    //XP11 sample values: 0,0,0,0
-	if( buffer ){
+    if( buffer && count == 4 ){
         // prob only used for view matrix at this stage
-        buffer[0] = 0; //left
-        buffer[1] = 0; //bottom
-        buffer[2] = 0; //right
-        buffer[3] = 0; //top
+		//int viewportData[4];
+		GLint glView[4];
+
+		// Fetch current OpenGL viewport state
+		glGetIntegerv(GL_VIEWPORT, glView);
+
+		// Fill the X-Plane dataref array
+		buffer[0] = glView[0];             // Left
+		buffer[1] = glView[1];             // Bottom
+		buffer[2] = glView[0] + glView[2]; // Right
+		buffer[3] = glView[1] + glView[3]; // Top
+
 	}
 
     return 4;
