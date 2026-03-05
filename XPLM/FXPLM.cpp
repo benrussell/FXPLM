@@ -79,14 +79,13 @@ void load_datarefs() {
 
 
 void spawn_host_app_plugin() {
-	std::cout<<"FXPLM/ spawn host_app plugin 0.\n";
+	std::cout<<"FXPLM/ Spawn plugin 0: XWB.host.app.\n";
 
 	if (XPHost::m_vecPlugins.size() >0 ) {
-		throw std::runtime_error("host_app plugin already exists");
+		throw std::runtime_error("XWB.host.app plugin already exists");
 	}
 
-	const auto fname = "XPL_Workbench";
-	Plugin *p = new Plugin(fname);
+	auto *p = new Plugin("XPL_WorkBench");
 	XPHost::m_vecPlugins.push_back(p);
 	//p->takeContext();
 

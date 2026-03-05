@@ -39,14 +39,15 @@
 		namespace fs = std::filesystem;
 		m_workingFolder = fs::current_path();
 
-		if ( fname == "XPL_Workbench" ) {
+		if ( fname == "XPL_WorkBench" ) {
 			std::cout<<"FXPLM/ Creating XWB host app plugin instance..\n";
 
-			m_pluginFilename = "XWB.app";
+			//m_pluginFilename = "XWB.app";
+			m_pluginFilename = "XPL_WorkBench"; //linux filename
 
 			//these are usually set by XPluginStart()
 			m_pluginName = "XWB";
-			m_pluginSig = "XWB.app";
+			m_pluginSig = "XWB.host.app";
 			m_pluginDesc = "The host application.";
 
 			m_timer.start();
