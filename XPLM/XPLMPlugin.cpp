@@ -193,9 +193,9 @@ XPLM_API void       XPLMReloadPlugins(void) {
 XPLM_API int        XPLMIsFeatureEnabled(
                          const char *         inFeature) {
 
-	FXPLM_DebugLogHeader("XPLMIsFeatureEnabled");
-	std::cout << " query:" << inFeature;
-	std::cout << "\n";
+	// FXPLM_DebugLogHeader("XPLMIsFeatureEnabled");
+	// std::cout << " query:" << inFeature;
+	// std::cout << "\n";
 
 
 	if( global_target_plugin ){
@@ -208,7 +208,12 @@ XPLM_API int        XPLMIsFeatureEnabled(
 			return 1;
 		}else{
 			//did not find it
-			std::cout << "FXPLM/ XPLMIsFeatureEnabled(["<< inFeature <<"]): Disabled.\n";
+
+			FXPLM_DebugLogHeader("XPLMIsFeatureEnabled");
+			std::cout << " query:" << inFeature;
+			std::cout << " Disabled.";
+			std::cout << "\n";
+
 			return 0;
 		}
 
