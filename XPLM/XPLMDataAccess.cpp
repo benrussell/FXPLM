@@ -24,7 +24,7 @@
 
 #include "XPLMDataAccess.h"
 
-#include "XPLM.h"
+#include "FXPLM.h"
 
 #include "glue_Plugin.hpp"
 extern Plugin* global_target_plugin;

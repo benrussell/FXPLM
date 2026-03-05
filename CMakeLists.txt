@@ -121,9 +121,9 @@ LINK_DIRECTORIES(
 
 
 
-# Sources / headers
+# Sources / headers - used for building the .framework bundle on macOS?
 set(PUBLIC_HEADERS
-        XPLM/XPLM.h
+        XPLM/FXPLM.h
 )
 set(SRCS
 
@@ -155,8 +155,8 @@ set(SRCS
         XPLM/XPLMUtilities.cpp
         XPLM/XPLMUtilities.h
 
-        XPLM/XPLM.cpp
-        XPLM/XPLM.h
+        XPLM/FXPLM.cpp
+        XPLM/FXPLM.h
 
         XPLM/XPLMMenus.cpp
         XPLM/XPLMMenus.h

@@ -22,7 +22,7 @@
 //  Created by Ben on 20/10/2025.
 //
 
-#include "XPLM.h"
+#include "FXPLM.h"
 
 #include "XPLMUtilities.h"
 

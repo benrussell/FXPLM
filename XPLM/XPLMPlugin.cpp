@@ -28,7 +28,7 @@
 #include <iostream>
 
 #include "glue_Plugin.hpp"
-#include "XPLM.h"
+#include "FXPLM.h"
 
 
 namespace XPHost {

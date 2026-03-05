@@ -28,7 +28,7 @@
 #include <vector>
 #include <string>
 
-#include "XPLM.h"
+#include "FXPLM.h"
 
 
 #include "glue_Plugin.hpp"

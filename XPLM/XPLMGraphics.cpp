@@ -23,7 +23,7 @@
 //
 
 #include "XPLMGraphics.h"
-#include "XPLM.h"
+#include "FXPLM.h"
 
 #include <iostream>
 
