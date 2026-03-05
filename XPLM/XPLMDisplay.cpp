@@ -66,12 +66,11 @@ void CenterExistingWindow(XPLMCreateWindow_t *params) {
 
 XPLM_API XPLMWindowID XPLMCreateWindowEx( XPLMCreateWindow_t *params ){
 
-	FXPLM_DebugLogHeader("XPLMCreateWindowEx");
-    std::cout << " params: " << std::hex << params << std::dec;
-
-
 	CenterExistingWindow(params);
 
+
+	FXPLM_DebugLogHeader("XPLMCreateWindowEx");
+    std::cout << " params: " << std::hex << params << std::dec;
 
 	//std::cout << " params size is good. taking a copy of the struct..\n";
 	auto tmp_win = new glue_WindowEx( params );
