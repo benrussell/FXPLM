@@ -540,19 +540,19 @@ XPLM_API int FXPLM_HandleWindowClick( float x, float y ){
 				std::cout << "  z_index:" << win_h->z_index << "\n";
 				std::cout << "    click_ret:" << click_ret;
 
-#define FXPLM_CLICK_MOUSE_UP 0
+#define FXPLM_CLICK_MOUSE_UP 1
 #if FXPLM_CLICK_MOUSE_UP
 				if( click_ret ){
-//						int click_ret2 = win_h->m_params->handleMouseClickFunc(
-//								win_h,
-//								(int)x, (int)y,
-//								xplm_MouseUp,
-//								win_h->m_params->refcon
-//						);
-						//std::cout << " click_ret2:" << click_ret2;
+					int click_ret2 = win_h->m_params->handleMouseClickFunc(
+							win_h,
+							(int)x, (int)y,
+							xplm_MouseUp,
+							win_h->m_params->refcon
+					);
+					std::cout << " click_ret2:" << click_ret2;
 
-						break; //early exit, we ate a click
-					}
+					break; //early exit, we ate a click
+				}
 #endif
 
 				std::cout << "\n";
