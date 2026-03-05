@@ -47,14 +47,6 @@ XPLM_API XPLMWindowID XPLMCreateWindowEx( XPLMCreateWindow_t *params ){
 	FXPLM_DebugLogHeader("XPLMCreateWindowEx");
     std::cout << " params: " << std::hex << params << std::dec;
 
-    const size_t need_size = sizeof(XPLMCreateWindow_t);
-    if( need_size != params->structSize ){
-        std::cout << "  params struct size mismatch/unknown\t";
-        std::cout << "  sizeof():" << need_size << " / p->size:" << params->structSize << "\n";
-        return nullptr;
-    }
-
-
 
 	//std::cout << " params size is good. taking a copy of the struct..\n";
 	auto tmp_win = new glue_WindowEx( params );
