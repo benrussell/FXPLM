@@ -22,7 +22,7 @@ enum XPLMProbeResult {
 typedef void * XPLMProbeRef;
 
 
-typedef struct {
+typedef struct XPLMProbeInfo_t{
 	// Size of structure in bytes - always set this before calling the XPLM.
 	int                       structSize;
 	// Resulting X location of the terrain point we hit, in local OpenGL coordinates.
@@ -81,7 +81,7 @@ XPLM_API float      XPLMDegMagneticToDegTrue(
 typedef void * XPLMObjectRef;
 
 
-typedef struct {
+typedef struct XPLMDrawInfo_t{
 	// Set this to the size of this structure!
 	int                       structSize;
 	// X location of the object in local coordinates.
@@ -100,7 +100,7 @@ typedef struct {
 
 
 
-typedef struct {
+typedef struct XPLMDrawInfoDouble_t{
 	// Set this to the size of this structure!
 	int                       structSize;
 	// X location of the object in local coordinates.
