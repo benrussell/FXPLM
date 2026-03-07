@@ -579,16 +579,25 @@ int draw_callback_processor( const std::vector<XPLMDrawingPhase> phases ) {
 
 	// 2. Create buckets for each phase
 	// Map phase enum to a list of callbacks for that specific phase
-	std::map<XPLMDrawingPhase, std::vector<DrawCallbackHost*>> buckets;
+
+	struct dcb_meta_t {
+		DrawCallbackHost* dcb;
+		Plugin* p;
+	};
+
+	std::map<XPLMDrawingPhase, std::vector<dcb_meta_t>> buckets;
 
 	// 3. Filtering Pass: Sort callbacks into buckets
 	for (auto p : XPHost::m_vecPlugins) {
 		if (p->m_plugin_is_enabled) {
-			for (auto dev : p->m_vecDrawCallbackHost) {
+			for (auto dcb : p->m_vecDrawCallbackHost) {
 				// Only bucket the phases we care about for 3D drawing
 				for (auto phase : phases) {
-					if (dev->m_phase == phase) {
-						buckets[phase].push_back(dev);
+					if (dcb->m_phase == phase) {
+						auto dcb_meta = dcb_meta_t{};
+						dcb_meta.dcb = dcb;
+						dcb_meta.p = p;
+						buckets[phase].push_back(dcb_meta);
 						break;
 					}
 				}
@@ -598,8 +607,10 @@ int draw_callback_processor( const std::vector<XPLMDrawingPhase> phases ) {
 
 	// 4. Execution Pass: Call bake() in the specific phase order
 	for (auto phase : phases) {
-		for (auto dev : buckets[phase]) {
-			dev->bake();
+		for (auto dcb_meta : buckets[phase]) {
+			dcb_meta.p->takeContext(); //FXIME: replace with RAII scope
+			dcb_meta.dcb->bake();
+			dcb_meta.p->releaseContext();
 		}
 	}
 
