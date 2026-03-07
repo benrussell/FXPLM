@@ -12,7 +12,12 @@
 
 #include <stdio.h>
 
+
 #include "xp_dref.hpp"
+
+
+typedef xp_dref* XPLMDataRef;
+
 
 
 namespace XPHost {
@@ -73,24 +78,41 @@ XPLM_API XPLMDataRef XPLMFindDataRef( const char* dref_name );
 
 
 //these are all placeholder type defs
-typedef void* XPLMGetDatai_f;
-typedef void* XPLMSetDatai_f;
+typedef int    (* XPLMGetDatai_f)(void* inRefcon);
+typedef void   (* XPLMSetDatai_f)(void* inRefcon, int inValue);
 
-typedef void* XPLMGetDatavi_f;
-typedef void* XPLMSetDatavi_f;
+typedef float  (* XPLMGetDataf_f)(void* inRefcon);
+typedef void   (* XPLMSetDataf_f)(void* inRefcon, float inValue);
+
+typedef double (* XPLMGetDatad_f)(void* inRefcon);
+typedef void   (* XPLMSetDatad_f)(void* inRefcon, double inValue);
+
+typedef int    (* XPLMGetDatavi_f)(void* inRefcon, int* outValues, int inOffset, int inMax);
+typedef void   (* XPLMSetDatavi_f)(void* inRefcon, int* inValues, int inOffset, int inCount);
+
+typedef int    (* XPLMGetDatavf_f)(void* inRefcon, float* outValues, int inOffset, int inMax);
+typedef void   (* XPLMSetDatavf_f)(void* inRefcon, float* inValues, int inOffset, int inCount);
+
+typedef int    (* XPLMGetDatab_f)(void* inRefcon, void* outValue, int inOffset, int inMaxBytes);
+typedef void   (* XPLMSetDatab_f)(void* inRefcon, void* inValue, int inOffset, int inLength);
 
 
-typedef void* XPLMGetDataf_f;
-typedef void* XPLMSetDataf_f;
 
-typedef void* XPLMGetDatavf_f;
-typedef void* XPLMSetDatavf_f;
-
-typedef void* XPLMGetDatad_f;
-typedef void* XPLMSetDatad_f;
-
-typedef void* XPLMGetDatab_f;
-typedef void* XPLMSetDatab_f;
+struct FXPLM_DataAccessorBundle_t{
+	int32_t				structSize;
+	XPLMGetDatai_f       inReadInt;
+	XPLMSetDatai_f       inWriteInt;
+	XPLMGetDataf_f       inReadFloat;
+	XPLMSetDataf_f       inWriteFloat;
+	XPLMGetDatad_f       inReadDouble;
+	XPLMSetDatad_f       inWriteDouble;
+	XPLMGetDatavi_f      inReadIntArray;
+	XPLMSetDatavi_f      inWriteIntArray;
+	XPLMGetDatavf_f      inReadFloatArray;
+	XPLMSetDatavf_f      inWriteFloatArray;
+	XPLMGetDatab_f       inReadData;
+	XPLMSetDatab_f       inWriteData;
+};
 
 
 XPLM_API XPLMDataRef XPLMRegisterDataAccessor(

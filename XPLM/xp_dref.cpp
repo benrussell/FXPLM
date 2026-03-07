@@ -90,6 +90,12 @@ xp_dref::xp_dref( xp_drefs_params params ){
 	//m_blob = malloc( m_blob_size );
 	m_blob = calloc( 1, m_blob_size );
 
+
+	std::cout << " clearing accessor fn table\n";
+	std::cout << "   fn tbl size:" << sizeof(FXPLM_DataAccessorBundle_Hack_t) << "\n";
+	memset((void*)&m_dataAccessorFunctions, 0, sizeof(FXPLM_DataAccessorBundle_Hack_t) );
+
+
 	// - call for malloc so we have some raw backing memory for the required array storage
 	if ( !m_blob) {
 
@@ -139,20 +145,42 @@ std::string xp_dref::typeName() const{
 
 float xp_dref::getFloat(){
 //        std::cout << "xp_dref->read(): " << drefName << "\n";
+
+	if( m_dataAccessorFunctions.inReadFloat ) {
+		return m_dataAccessorFunctions.inReadFloat(m_refcon_read);
+	}
+
 	return m_valFloat;
 };
 
 void xp_dref::setFloat( float new_val ){
+
+	if( m_dataAccessorFunctions.inWriteFloat ) {
+		m_dataAccessorFunctions.inWriteFloat(m_refcon_write, new_val);
+		return;
+	}
+
 	m_valFloat = new_val;
 }
 
 
 int xp_dref::getInt(){
 //        std::cout << "xp_dref->read(): " << drefName << "\n";
+
+	if( m_dataAccessorFunctions.inReadInt ) {
+		return m_dataAccessorFunctions.inReadInt(m_refcon_read);
+	}
+
 	return m_valInt;
 };
 
 void xp_dref::setInt( int new_val ){
+
+	if( m_dataAccessorFunctions.inWriteInt ) {
+		m_dataAccessorFunctions.inWriteInt(m_refcon_write, new_val);
+		return;
+	}
+
 	m_valInt = new_val;
 }
 

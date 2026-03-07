@@ -25,27 +25,73 @@
 #ifndef xp_dref_hpp
 #define xp_dref_hpp
 
-#include <stdio.h>
-
-
-//#include "XPLMDataAccess.h"
 
 #include <string>
 #include <utility>
 #include <iostream>
 #include <vector>
 
+
+
+
+//class xp_dref;
+//#include "XPLMDataAccess.h"
+#warning this is a duplicate struct hack around circular includes.
+
+
+
+//these are all placeholder type defs
+typedef int    (* FXPLMGetDatai_f)(void* inRefcon);
+typedef void   (* FXPLMSetDatai_f)(void* inRefcon, int inValue);
+
+typedef float  (* FXPLMGetDataf_f)(void* inRefcon);
+typedef void   (* FXPLMSetDataf_f)(void* inRefcon, float inValue);
+
+typedef double (* FXPLMGetDatad_f)(void* inRefcon);
+typedef void   (* FXPLMSetDatad_f)(void* inRefcon, double inValue);
+
+typedef int    (* FXPLMGetDatavi_f)(void* inRefcon, int* outValues, int inOffset, int inMax);
+typedef void   (* FXPLMSetDatavi_f)(void* inRefcon, int* inValues, int inOffset, int inCount);
+
+typedef int    (* FXPLMGetDatavf_f)(void* inRefcon, float* outValues, int inOffset, int inMax);
+typedef void   (* FXPLMSetDatavf_f)(void* inRefcon, float* inValues, int inOffset, int inCount);
+
+typedef int    (* FXPLMGetDatab_f)(void* inRefcon, void* outValue, int inOffset, int inMaxBytes);
+typedef void   (* FXPLMSetDatab_f)(void* inRefcon, void* inValue, int inOffset, int inLength);
+
+
+
+struct FXPLM_DataAccessorBundle_Hack_t{
+	int32_t				structSize;
+	FXPLMGetDatai_f       inReadInt;
+	FXPLMSetDatai_f       inWriteInt;
+	FXPLMGetDataf_f       inReadFloat;
+	FXPLMSetDataf_f       inWriteFloat;
+	FXPLMGetDatad_f       inReadDouble;
+	FXPLMSetDatad_f       inWriteDouble;
+	FXPLMGetDatavi_f      inReadIntArray;
+	FXPLMSetDatavi_f      inWriteIntArray;
+	FXPLMGetDatavf_f      inReadFloatArray;
+	FXPLMSetDatavf_f      inWriteFloatArray;
+	FXPLMGetDatab_f       inReadData;
+	FXPLMSetDatab_f       inWriteData;
+};
+
+
+
+
+
+
+
+
+
 class Plugin;
-
-
 
 
 struct ParsedType {
 	std::string baseType;
 	std::vector<int> dimensions;
 };
-
-
 
 
 enum xp_dref_type{
@@ -101,6 +147,12 @@ public:
     double m_valDouble;
 
 
+
+	FXPLM_DataAccessorBundle_Hack_t m_dataAccessorFunctions;
+	void* m_refcon_read;
+	void* m_refcon_write;
+
+
     std::string typeName() const;
 
     virtual float getFloat();
@@ -115,8 +167,6 @@ public:
 
 
 
-
-typedef xp_dref* XPLMDataRef;
 
 
 namespace XPHost {

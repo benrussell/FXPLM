@@ -322,6 +322,7 @@ XPLMDataRef XPLMFindDataRef( const char* dref_name ){
 
 
 
+
 XPLMDataRef XPLMRegisterDataAccessor(
                          const char *         inDataName,
                          XPLMDataTypeID       inDataType,
@@ -370,6 +371,24 @@ XPLMDataRef XPLMRegisterDataAccessor(
     std::cout << "\n\t";
 
 
+
+	FXPLM_DataAccessorBundle_t bundle;
+	bundle.structSize = sizeof(FXPLM_DataAccessorBundle_t);
+	bundle.inReadInt = inReadInt;
+	bundle.inWriteInt = inWriteInt;
+	bundle.inReadFloat = inReadFloat;
+	bundle.inWriteFloat = inWriteFloat;
+	bundle.inReadDouble = inReadDouble;
+	bundle.inWriteDouble = inWriteDouble;
+	bundle.inReadIntArray = inReadIntArray;
+	bundle.inWriteIntArray = inWriteIntArray;
+	bundle.inReadFloatArray = inReadFloatArray;
+	bundle.inWriteFloatArray = inWriteFloatArray;
+	bundle.inReadData = inReadData;
+	bundle.inWriteData = inWriteData;
+
+
+
     //FIXME: add more type handlers
     //FIXME: XP SDK has a dref type introspection fn?
     std::string s_dref_type_name="undef";
@@ -389,6 +408,12 @@ XPLMDataRef XPLMRegisterDataAccessor(
 		global_target_plugin->m_vecDrefs.push_back(dr);
         std::cout << " ret:" << dr;
         std::cout << "\n";
+
+    	std::cout << " copy dataAccessorFunctions bundle\n";
+		memcpy( (void*)&dr->m_dataAccessorFunctions, (void*)&bundle, sizeof(FXPLM_DataAccessorBundle_t) );
+
+    	dr->m_refcon_read = inReadRefcon;
+    	dr->m_refcon_write = inWriteRefcon;
 
     }else{
 		//FXPLM_DebugLogHeader("XPLMRegisterDataAccessor");
