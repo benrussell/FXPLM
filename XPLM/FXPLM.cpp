@@ -386,6 +386,25 @@ XPLM_API void       FXPLM_UnloadPlugins(void) {
 
 }
 
+XPLM_API void       FXPLM_UnloadPlugin(void* p) {
+	std::cout<<"FXP</ FXPLM_UnloadPlugin: " << p << "\n";
+
+	std::vector<Plugin*> keepers;
+	for( const auto test_p: XPHost::m_vecPlugins ){
+		if (p == test_p) {
+			//datarefs track their consumers by Plugin*
+			dref_factory::cleanup(p);
+			delete (Plugin*)p;
+
+		}else {
+			keepers.push_back(test_p);
+		}
+	}//loop all plugins
+
+
+	XPHost::m_vecPlugins.swap( keepers );
+
+}
 
 
 

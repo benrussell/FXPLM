@@ -93,6 +93,7 @@ XPLM_API int FXPLM_LoadPlugin( const char* );
 XPLM_API const char* FXPLM_LoadPlugin_GetErr();
 
 XPLM_API void FXPLM_UnloadPlugins();
+XPLM_API void FXPLM_UnloadPlugin( void* p );
 
 
 XPLM_API int FXPLM_RunFLCBS();
