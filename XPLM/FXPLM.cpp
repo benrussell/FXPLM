@@ -105,7 +105,7 @@ void spawn_host_app_plugin() {
 void init_stbtt()
 {
 
-	std::cout << "******* init_stbtt() ********\n";
+	std::cout << "FXPLM/ ******* init_stbtt() ********\n";
 	std::cout << " cwd:" << std::filesystem::current_path() << "\n";
 
 	// --- 1. Load Font File ---
@@ -197,7 +197,7 @@ void init_stbtt()
 
 
 
-XPLM_API void FXPLM_Init( char* name, char* sig, char* desc ) {
+XPLM_API void FXPLM_Init() {
 
 	std::cout<<"FXPLM_Init: 26.01.04.2108"<<std::endl;
 	// std::cout<< name <<std::endl;
@@ -425,7 +425,7 @@ XPLM_API int FXPLM_RunFLCBS() {
 
 
 
-XPLM_API int FXPLM_DrawWindows() {
+XPLM_API int FXPLM_DrawWindows_Refac() {
 
 	for( auto p: XPHost::m_vecPlugins ){
 		if ( p->m_plugin_is_enabled ) {
@@ -533,8 +533,7 @@ XPLM_API int FXPLM_HandleWindowClick( float x, float y ){
 	});
 
 
-
-	{ //var name isolation
+	{
 		Plugin *p;
 		std::cout << " iter sorted vecWindowHandles..\n";
 		for (const auto win_h: vecWindowHandles) {
@@ -626,6 +625,12 @@ int draw_callback_processor( const std::vector<XPLMDrawingPhase> phases ) {
 
 	// 4. Execution Pass: Call bake() in the specific phase order
 	for (auto phase : phases) {
+
+		if( phase == xplm_Phase_Window ){
+//			std::cout << "FXPLM/ drawcb proc/ window phase..\n";
+			FXPLM_DrawWindows_Refac();
+		}
+
 		for (auto dcb_meta : buckets[phase]) {
 			dcb_meta.p->takeContext(); //FXIME: replace with RAII scope
 			dcb_meta.dcb->bake();
@@ -770,16 +775,17 @@ void FXPLM_DebugLogHeader( const char* msg ){
 
 
 
-void FXPLM_TestGL() {
+void FXPLM_InitGL() {
 
-	FXPLM_DebugLogHeader("FXPLM_TestGL");
+	FXPLM_DebugLogHeader("FXPLM_InitGL");
 	std::cout << "\n";
 
 
 	{
+		//FXIME: how is this wired to the FXPLM api that returns the tex id?
 		GLuint tex_foo;
 		glGenTextures(1, &tex_foo);
-		std::cout << "  tex_foo:" << tex_foo << "\n";
+		std::cout << "  tex_Interface:" << tex_foo << "\n";
 
 		gz::gfx::tex::load( "Resources/bitmaps/interface.png", tex_foo );
 

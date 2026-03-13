@@ -91,8 +91,8 @@ xp_dref::xp_dref( xp_drefs_params params ){
 	m_blob = calloc( 1, m_blob_size );
 
 
-	std::cout << " clearing accessor fn table\n";
-	std::cout << "   fn tbl size:" << sizeof(FXPLM_DataAccessorBundle_Hack_t) << "\n";
+	//std::cout << " clearing accessor fn table\n";
+	//std::cout << "   fn tbl size:" << sizeof(FXPLM_DataAccessorBundle_Hack_t) << "\n";
 	memset((void*)&m_dataAccessorFunctions, 0, sizeof(FXPLM_DataAccessorBundle_Hack_t) );
 
 
@@ -292,7 +292,7 @@ void dref_factory::init(){
 		throw std::runtime_error( "FXPLM/dref_factory::init() - pool is filled." );
 	}
 
-	std::cout << "FXPLM/ dref_factory::init()\n";
+	std::cout << "FXPLM/ dref_factory::init() - creating host-hooked drefs\n";
 
 	{
 		xp_drefs_params create_params;
@@ -302,6 +302,7 @@ void dref_factory::init(){
 		// ReSharper disable once CppDFAMemoryLeak
 		auto dr = new xp_dref(create_params);
 		XPHost::m_dref_pool.push_back(dr);
+		std::cout << " create: " << create_params.name << "\n";
 	}
 
 	{
@@ -312,6 +313,7 @@ void dref_factory::init(){
 		// ReSharper disable once CppDFAMemoryLeak
 		auto dr = new xp_dref(create_params);
 		XPHost::m_dref_pool.push_back(dr);
+		std::cout << " create: " << create_params.name << "\n";
 	}
 
 	{
@@ -322,6 +324,7 @@ void dref_factory::init(){
 		// ReSharper disable once CppDFAMemoryLeak
 		auto dr = new xp_dref(create_params);
 		XPHost::m_dref_pool.push_back(dr);
+		std::cout << " create: " << create_params.name << "\n";
 	}
 
 	{
@@ -332,6 +335,7 @@ void dref_factory::init(){
 		// ReSharper disable once CppDFAMemoryLeak
 		auto dr = new xp_dref(create_params);
 		XPHost::m_dref_pool.push_back(dr);
+		std::cout << " create: " << create_params.name << "\n";
 	}
 
 };

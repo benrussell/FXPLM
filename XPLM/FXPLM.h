@@ -81,10 +81,10 @@ extern Plugin* global_target_plugin;
 void FXPLM_DebugLogHeader( const char* msg );
 
 
-XPLM_API void FXPLM_TestGL();
+XPLM_API void FXPLM_InitGL();
 
 
-XPLM_API void FXPLM_Init( char*, char*, char* );
+XPLM_API void FXPLM_Init();
 
 XPLM_API void FXPLM_SetContext( void* );
 
@@ -102,7 +102,8 @@ XPLM_API int FXPLM_DrawCBS_3D();
 XPLM_API int FXPLM_DrawCBS();
 XPLM_API int FXPLM_Draw_AvionicsDevices();
 
-XPLM_API int FXPLM_DrawWindows();
+//this fn should no longer be called directly, its been merged into the logic of DrawCBS()
+XPLM_API int FXPLM_DrawWindows_Refac();
 
 XPLM_API int FXPLM_HandleWindowClick( float x, float y );
 
