@@ -16,13 +16,14 @@
 #include "xp_dref.hpp"
 
 
-typedef xp_dref* XPLMDataRef;
+//typedef xp_dref* XPLMDataRef;
+typedef void* XPLMDataRef;
 
 
 
 namespace XPHost {
 	extern float fps;
-	extern std::vector<XPLMDataRef> m_dref_pool;
+	extern std::vector<xp_dref*> m_dref_pool;
 }
 
 

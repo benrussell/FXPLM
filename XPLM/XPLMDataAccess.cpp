@@ -165,9 +165,9 @@ int XPLMGetDatavf( XPLMDataRef dref_h, float* buffer, int offset, int count ){
                 //generic data storage
                 if ( buffer ) {
                     const size_t float_size = sizeof(float);
-                    memcpy( buffer, (float*)dref_h->m_blob + offset, float_size * count);
+                    memcpy( buffer, (float*)((xp_dref*)dref_h)->m_blob + offset, float_size * count);
                 }
-                return dref_h->m_elements;
+                return ((xp_dref*)dref_h)->m_elements;
 
         } //detect special defs with fn backing
 
