@@ -117,6 +117,11 @@ XPLM_API xp_dref* FXPLM_DrefCreate( const char* dref_name );
 
 
 
+XPLM_API void FXPLM_LoadTexture( const std::string& filename, int tex_id );
+
+
+
+
 // README: DO NOT ANNOTATE WITH XPLM_API or other decorators or the link will break.
 void __XPLMValidateThreadSafety(const char* functionName,
 								const char* fileName,

@@ -27,7 +27,8 @@
 
 
 #include "PluginContextGuard.h"
-
+#include <sstream>
+#include <fstream>
 
 Plugin* global_target_plugin;
 
@@ -759,7 +760,7 @@ void __XPLMValidateThreadSafety(const char* functionName,
 }
 
 
-
+// m_dr_xp_fbo_handle = XPLMFindDataRef("sim/graphics/view/current_gl_fbo");
 
 
 void FXPLM_DebugLogHeader( const char* msg ){
@@ -787,7 +788,7 @@ void FXPLM_InitGL() {
 		glGenTextures(1, &tex_foo);
 		std::cout << "  tex_Interface:" << tex_foo << "\n";
 
-		gz::gfx::tex::load( "Resources/bitmaps/interface.png", tex_foo );
+		FXPLM_LoadTexture( "Resources/bitmaps/interface.png", tex_foo );
 
 	}
 
@@ -796,3 +797,36 @@ void FXPLM_InitGL() {
 
 
 }
+
+
+
+
+
+void FXPLM_LoadTexture( const std::string& filename, int tex_id ){
+	int width, height, channels;
+	stbi_set_flip_vertically_on_load(true);
+	unsigned char* data = stbi_load(filename.c_str(), &width, &height, &channels, 4); // Load image with 4 channels (RGBA)
+
+	if (!data) {
+		std::string err_msg = "FXPLM_LoadTexture: Failed to load texture: " + filename;
+		throw std::runtime_error( err_msg );
+	}
+
+	if( glIsTexture(tex_id) ){
+		throw std::runtime_error("FXPLM_LoadTexture: tex target is not a texture. Call generate?");
+	}
+
+
+	glBindTexture(GL_TEXTURE_2D, tex_id);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	stbi_image_free(data);
+} //tex::load(fname,tex_id)

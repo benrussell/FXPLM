@@ -39,7 +39,7 @@
 
 #include "glue_FBO.hpp"
 
-#include <gz_shader.h>
+//#include <gz_shader.h>
 
 
 class DrawCallbackHost {

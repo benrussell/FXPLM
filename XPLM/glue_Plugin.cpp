@@ -31,6 +31,9 @@
 #include <iostream>
 
 
+#include <sstream>
+
+
 
 
 	Plugin::Plugin( std::string fname ){
