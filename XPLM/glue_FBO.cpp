@@ -48,7 +48,7 @@ gz_fbo::gz_fbo(const int width, const int height, float fAlpha ){
 #define GZ_RESET_GL_STATE 1
 #if GZ_RESET_GL_STATE
 
-	std::cout << "FXPLM/ glue_FBO: *** RESET GL STATE BEFORE FBO CREATE ***\n";
+	//std::cout << "FXPLM/ glue_FBO: *** RESET GL STATE BEFORE FBO CREATE ***\n";
 	// 1. Reset Texture State
 	//glActiveTexture(GL_TEXTURE0);
 	//glBindTexture(GL_TEXTURE_2D, 0);

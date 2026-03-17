@@ -105,9 +105,8 @@ void spawn_host_app_plugin() {
 
 void init_stbtt()
 {
-
-	std::cout << "FXPLM/ ******* init_stbtt() ********\n";
-	std::cout << " cwd:" << std::filesystem::current_path() << "\n";
+	std::cout << "  init_stbtt()\n";
+	std::cout << "  cwd:" << std::filesystem::current_path() << "\n";
 
 	// --- 1. Load Font File ---
 	std::ifstream file(FONT_FILE, std::ios::binary | std::ios::ate);
@@ -137,7 +136,7 @@ void init_stbtt()
 			g_cdata
 	);
 
-	std::cout << "gc_data:" << (void*)&g_cdata << "\n";
+	std::cout << "  gc_data:" << (void*)&g_cdata << "\n";
 	for(int x=0; x<CHAR_COUNT; x++){
 		// auto cdata = g_cdata[x];
 //		std::cout << " char_target:" << char_target;
@@ -192,8 +191,8 @@ void init_stbtt()
 	// NOTE: g_font_data is kept until app exit if you need to call stbtt_Free...
 	// or if you want to use other stb_truetype functions later.
 
-	std::cout << "stb_truetype font atlas initialized." << std::endl;
-	std::cout << " font atlas texture: " << g_font_atlas_texture << "\n";
+	std::cout << "  stb_truetype font atlas initialized." << std::endl;
+	std::cout << "  font atlas texture: " << g_font_atlas_texture << "\n";
 }
 
 
@@ -732,7 +731,7 @@ XPLM_API xp_dref* FXPLM_DrefCreate( const char* dref_name ) {
 	// make sure you refresh the dref filtered list
 
 	FXPLM_DebugLogHeader("FXPLM_DrefCreate");
-	std::cout << " dref_name:[" << dref_name <<"]\n";
+	std::cout << " " << dref_name <<"\n";
 	return dref_factory::saveDref( dref_name, "float" );
 }
 
@@ -766,7 +765,7 @@ void __XPLMValidateThreadSafety(const char* functionName,
 void FXPLM_DebugLogHeader( const char* msg ){
 
 	if( global_target_plugin == nullptr ){
-		std::cout << "FXPLM/ [XWB.app] " << msg << ":";
+		std::cout << "FXPLM/ [nullptr] " << msg << ":";
 		return;
 	}
 

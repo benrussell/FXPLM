@@ -22,6 +22,7 @@
 #ifndef GLUE_FBO_HPP
 #define GLUE_FBO_HPP
 
+//FIXME: port/copy gz_fbo into gz_core eventually
 
 //#include <iostream>
 //
