@@ -24,6 +24,7 @@
 #include <iostream>
 
 #include "FXPLM.h"
+#include "ObjLoader.h"
 
 
 XPLM_API XPLMProbeRef XPLMCreateProbe(
@@ -83,8 +84,10 @@ float                headingDegreesMagnetic) {
 
 XPLM_API XPLMObjectRef XPLMLoadObject(
 const char *         inPath) {
-	std::cerr<<"FXPLM/ NOP/ XPLMDegMagneticToDegTrue\n";
-	return nullptr;
+	FXPLM_DebugLogHeader("XPLMLoadObject");
+	std::cout << " path:" << (inPath ? inPath : "(null)") << "\n";
+
+    return (XPLMObjectRef)FXPLM_LoadWavefrontObj(inPath);
 }
 
 
@@ -102,14 +105,22 @@ XPLM_API void       XPLMDrawObjects(
 						 XPLMDrawInfo_t *     inLocations,
 						 int                  lighting,
 						 int                  earth_relative) {
-	std::cerr<<"FXPLM/ NOP/ XPLMDrawObjects\n";
+	if (!inObject || !inLocations || inCount <= 0) return;
+    
+    auto obj = (FXPLM_Object_t*)inObject;
+    for (int i = 0; i < inCount; ++i) {
+        FXPLM_DrawWavefrontObj(obj, &inLocations[i]);
+    }
 }
 
 
 
 XPLM_API void       XPLMUnloadObject(
 XPLMObjectRef        inObject) {
-	std::cerr<<"FXPLM/ NOP/ XPLMUnloadObject\n";
+	if (inObject) {
+        auto obj = (FXPLM_Object_t*)inObject;
+        delete obj;
+    }
 }
 
 

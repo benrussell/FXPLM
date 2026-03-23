@@ -173,6 +173,9 @@ set(SRCS
         XPLM/XPLMScenery.cpp
         XPLM/XPLMScenery.h
 
+        XPLM/ObjLoader.cpp
+        XPLM/ObjLoader.h
+
         XPLM/XPLMMap.cpp
         XPLM/XPLMMap.h
 
