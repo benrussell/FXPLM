@@ -36,13 +36,6 @@
 class AvionicsHost {
 public:
 
-	//profiling timer.
-	double m_bakeStart_Screen=0;
-	double m_bakeStop_Screen=0;
-	double m_bakeStart_Bezel=0;
-	double m_bakeStop_Bezel=0;
-	Timer m_timer;
-
 	XPLMCreateAvionics_t* m_params;
 
 //	// fbo handle
@@ -76,8 +69,27 @@ public:
 	void bake();
 
 
+
+
+	double cost();
+	double cost_screen();
+	double cost_bezel();
+	double cost_composite();
+
+
 private:
-	void draw_triangle_avhost();
+	//void draw_triangle_avhost();
+
+
+	//profiling timer.
+	double m_bakeStart_Screen=0;
+	double m_bakeStop_Screen=0;
+	double m_bakeStart_Bezel=0;
+	double m_bakeStop_Bezel=0;
+	double m_bakeStart_Composite=0;
+	double m_bakeStop_Composite=0;
+	Timer m_timer;
+
 
 };
 

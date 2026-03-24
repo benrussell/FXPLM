@@ -48,6 +48,7 @@ AvionicsHost::AvionicsHost( XPLMCreateAvionics_t* p ){
 
 	std::cout << " create composite fbo\n";
 	m_composite_fbo = new gz_fbo(p->bezelWidth, p->bezelHeight);
+	m_composite_fbo->m_FboClearColorRGBA[3] = 0.f;
 
 	m_params = p; //prob need to pass these to fbo?
 
@@ -268,32 +269,30 @@ void AvionicsHost::bake(){
 
 
 	//we need a third, to do composition. Ugh.
-
-	m_composite_fbo->push_fbo();
-		draw_composite();
-	m_composite_fbo->pop_fbo();
+	m_bakeStart_Composite = m_timer.getElapsedTimeInMilliSec();
+		m_composite_fbo->push_fbo();
+			draw_composite();
+		m_composite_fbo->pop_fbo();
+	m_bakeStop_Composite = m_timer.getElapsedTimeInMilliSec();
 
 
 }
 
 
-void AvionicsHost::draw_triangle_avhost(){
-	/* Render here */
 
-	glPushMatrix();
+double AvionicsHost::cost(){
+	return cost_screen() + cost_bezel() + cost_composite();
+}
 
-	glBegin(GL_TRIANGLES);
-	glColor3f( 1.f, 0.2f, 0.f );
-	glVertex3f( 0.f, 0.f, 0.f );
+double AvionicsHost::cost_screen(){
+	return m_bakeStop_Screen - m_bakeStart_Screen;
+}
 
-	glColor3f( 0.2f, 1.f, 0.f );
-	glVertex3f( 100.f, 0.f, 0.f );
+double AvionicsHost::cost_bezel(){
+	return m_bakeStop_Bezel - m_bakeStart_Bezel;
+}
 
-	glColor3f( 1.f, 0.2f, 1.f );
-	glVertex3f( 50.f, 100.f, 0.f );
-	glEnd();
-
-	glPopMatrix();
-
+double AvionicsHost::cost_composite(){
+	return m_bakeStop_Composite - m_bakeStart_Composite;
 }
 
