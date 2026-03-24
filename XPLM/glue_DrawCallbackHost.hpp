@@ -45,13 +45,6 @@
 class DrawCallbackHost {
 public:
 
-	//profiling timer.
-	double m_bakeStart_Screen=0;
-	double m_bakeStop_Screen=0;
-	// double m_bakeStart_Bezel=0;
-	// double m_bakeStop_Bezel=0;
-	Timer m_timer;
-
 //	// fbo handle
 //	GLuint m_fbo=0;
 //	GLuint m_rbo=0;
@@ -74,7 +67,7 @@ public:
     int m_before;
     void* m_refcon;
 
-	bool m_xplw_disabled;
+	bool m_dcb_enabled;
 
 	explicit DrawCallbackHost(
         XPLMDrawCallback_f   inCallback,
@@ -83,17 +76,18 @@ public:
 		void *               inRefcon
     ){
 
-		m_xplw_disabled = false;
+		m_dcb_enabled = true;
 
         m_draw_cb_f = inCallback;
         m_phase = inPhase;
         m_before = inWantsBefore;
         m_refcon = inRefcon;
 
-        //const int screenWidth=1024;
-        //const int screenHeight=1024;
-
 		m_timer.start();
+
+
+		//const int screenWidth=1024;
+		//const int screenHeight=1024;
 
 		//m_screen_fbo = new gz_fbo(screenWidth, screenHeight );
         //std::cout << "  glue_DrawCallBackHost: fbo tex_id: " << m_screen_fbo->m_tex << "\n";
@@ -106,33 +100,33 @@ public:
 		std::cout<<"~DrawCallbackHost()\n";
 		//std::cout <<" destruct:" << m_deviceId << "\n";
 
-		//delete m_bezel_fbo;
 		//delete m_screen_fbo;
-		//delete m_composite_fbo;
+
 	}
 
 
 	//this is called by bake but can also be called directly.
 	void draw_screen(){
-
         if( m_draw_cb_f ){
-
             m_draw_cb_f(
                 m_phase,
                 m_before,
                 m_refcon
             );
-
         }
-
 	}
 
+
+
+	double cost(){
+		return m_bakeStop_Screen - m_bakeStart_Screen;
+	}
 
 
 	void bake(){
         //std::cout << "DrawCallbackHost->bake()\n";
 
-		if(m_xplw_disabled){
+		if( ! m_dcb_enabled ){
 			return;
 		}
 
@@ -147,28 +141,15 @@ public:
 	}
 
 
+
 private:
 
+	//profiling timer.
+	double m_bakeStart_Screen=0;
+	double m_bakeStop_Screen=0;
 
-	void draw_triangle_dcb_host(){
-		/* Render here */
+	Timer m_timer;
 
-		glPushMatrix();
-
-		glBegin(GL_TRIANGLES);
-		glColor3f( 1.f, 0.2f, 0.f );
-		glVertex3f( 0.f, 0.f, 0.f );
-
-		glColor3f( 0.2f, 1.f, 0.f );
-		glVertex3f( 100.f, 0.f, 0.f );
-
-		glColor3f( 1.f, 0.2f, 1.f );
-		glVertex3f( 50.f, 100.f, 0.f );
-		glEnd();
-
-		glPopMatrix();
-
-	}
 
 
 };
