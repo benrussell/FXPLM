@@ -393,7 +393,7 @@ XPLM_API void       FXPLM_UnloadPlugin(void* p) {
 	for( const auto test_p: XPHost::m_vecPlugins ){
 		if (p == test_p) {
 			//datarefs track their consumers by Plugin*
-			dref_factory::cleanup(p);
+			dref_factory::cleanup(p); //FIXME: need to invalidate plugin cbs for dref IO
 			delete (Plugin*)p;
 
 		}else {

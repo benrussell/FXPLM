@@ -194,7 +194,7 @@ set(SRCS
         XPLM/glue_Menus.cpp         XPLM/glue_Menus.h
         XPLM/PluginContextGuard.h
 
-)
+        XPLM/glue_DrawUtils.cpp XPLM/glue_DrawUtils.h)
 
 
 SUBDIRS(
