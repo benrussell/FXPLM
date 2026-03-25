@@ -23,6 +23,8 @@
 
 #include "glue_Plugin.hpp"
 
+#include <cstring>
+
 #include "PluginContextGuard.h"
 
 #include <string>

@@ -24,6 +24,8 @@
 
 #include "XPLMDataAccess.h"
 
+#include <cstring>
+
 #include "FXPLM.h"
 
 #include "glue_Plugin.hpp"

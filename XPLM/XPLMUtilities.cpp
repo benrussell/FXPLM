@@ -27,6 +27,7 @@
 #include "XPLMUtilities.h"
 
 
+#include <cstring>
 #include <filesystem>
 #include <iostream>
 #include <string>
