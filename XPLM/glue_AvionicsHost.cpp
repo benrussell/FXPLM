@@ -50,7 +50,11 @@ AvionicsHost::AvionicsHost( XPLMCreateAvionics_t* p ){
 	m_composite_fbo = new gz_fbo(p->bezelWidth, p->bezelHeight);
 	m_composite_fbo->m_FboClearColorRGBA[3] = 0.f;
 
-	m_params = p; //prob need to pass these to fbo?
+	//FIXME: memcpy!
+	//m_params = (XPLMCreateAvionics_t*)calloc( 1, sizeof(XPLMCreateAvionics_t) );
+	m_params = new XPLMCreateAvionics_t;
+//	m_params = p; //prob need to pass these to fbo?
+	memcpy( m_params, p, p->structSize );
 
 	m_deviceName = std::string(p->deviceName);
 	m_deviceId = std::string(p->deviceID);
@@ -120,6 +124,8 @@ AvionicsHost::~AvionicsHost(){
 	delete m_bezel_fbo;
 	delete m_screen_fbo;
 	delete m_composite_fbo;
+
+	delete m_params;
 }
 
 
