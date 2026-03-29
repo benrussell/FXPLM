@@ -273,6 +273,15 @@ XPLM_API void XPLMCreateAvionicsEx(
 );
 
 
+XPLM_API void       XPLMSetAvionicsPopupVisible(
+		XPLMAvionicsID       inHandle,
+		int                  inVisible);
+
+
+XPLM_API void       XPLMTakeAvionicsKeyboardFocus(
+		XPLMAvionicsID       inHandle);
+
+
 XPLM_API void XPLMSetWindowGeometry(XPLMWindowID inWindowID, int left, int top, int right, int bottom);
 
 

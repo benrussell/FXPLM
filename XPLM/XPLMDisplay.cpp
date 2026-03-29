@@ -330,6 +330,26 @@ XPLM_API void XPLMCreateAvionicsEx( void* params ){
 
 
 
+XPLM_API void       XPLMSetAvionicsPopupVisible(
+		XPLMAvionicsID       inHandle,
+		int                  inVisible){
+	FXPLM_DebugLogHeader("XPLMSetAvionicsPopupVisible");
+	std::cout << " handle:" << inHandle;
+	std::cout << " visible:" << inVisible << "\n";
+}
+
+
+XPLM_API void       XPLMTakeAvionicsKeyboardFocus(
+		XPLMAvionicsID       inHandle){
+	FXPLM_DebugLogHeader("XPLMTakeAvionicsKeyboardFocus");
+	std::cout << " handle:" << inHandle << "\n";
+}
+
+
+
+
+
+
 XPLM_API void XPLMGetScreenBoundsGlobal(
         int *                outLeft,    /* Can be NULL */
         int *                outTop,    /* Can be NULL */
