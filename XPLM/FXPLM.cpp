@@ -686,7 +686,7 @@ XPLM_API int FXPLM_Draw_AvionicsDevices() {
 
 	for( auto p: XPHost::m_vecPlugins ){
 		if ( p->m_plugin_is_enabled ) {
-
+			auto g = PluginContextGuard(p);
 			for( auto dev: p->m_vecAvionicsHost ){
 				// This is an FBO bake loop.
 				// This is NOT imgui calling code.

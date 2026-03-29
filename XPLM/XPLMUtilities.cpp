@@ -55,8 +55,7 @@ extern Plugin* global_target_plugin;
 
 void XPLMGetSystemPath( char* outBuff ){
 
-	std::cout << "FXPLM/ ["<< global_target_plugin->getSafeSig()
-			  << "] XPLMGetSystemPath:";
+	FXPLM_DebugLogHeader("XPLMGetSystemPath");
 
 	std::cout << " ret[" << fxplm_global_sys_folder << "/]\n";
     snprintf( outBuff, 512, "%s/", fxplm_global_sys_folder.c_str() );
