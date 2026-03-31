@@ -333,7 +333,7 @@ XPLM_API void XPLMCreateAvionicsEx( void* params ){
 XPLM_API void       XPLMSetAvionicsPopupVisible(
 		XPLMAvionicsID       inHandle,
 		int                  inVisible){
-	FXPLM_DebugLogHeader("XPLMSetAvionicsPopupVisible");
+	FXPLM_DebugLogHeader("NOP/ XPLMSetAvionicsPopupVisible"); //FIXME:
 	std::cout << " handle:" << inHandle;
 	std::cout << " visible:" << inVisible << "\n";
 }
@@ -341,8 +341,10 @@ XPLM_API void       XPLMSetAvionicsPopupVisible(
 
 XPLM_API void       XPLMTakeAvionicsKeyboardFocus(
 		XPLMAvionicsID       inHandle){
-	FXPLM_DebugLogHeader("XPLMTakeAvionicsKeyboardFocus");
+	FXPLM_DebugLogHeader("NOP/ XPLMTakeAvionicsKeyboardFocus"); //FIXME:
 	std::cout << " handle:" << inHandle << "\n";
+
+
 }
 
 
