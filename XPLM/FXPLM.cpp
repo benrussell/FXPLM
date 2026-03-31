@@ -477,6 +477,10 @@ XPLM_API int FXPLM_HandleWindowClick( float x, float y ){
 	};
 
 
+	//FIXME: we need to add support for av devs - window click
+
+
+
 	// [x] iterate through plugins and win handles.
 	//     collect all win handles into vector
 	// [x] z-index sort win handles
@@ -664,7 +668,72 @@ XPLM_API int FXPLM_DrawCBS_3D() {
 
 
 
+#include "glue_DrawUtils.h"
+#include "XPLMGraphics.h"
+
 XPLM_API int FXPLM_DrawCBS() {
+
+	// begin draw avionics device textures
+
+	// must accum over all plugins or we get over-draw
+	int x = 20;
+
+	glColor4f(1.0, 1.0, 1.0, 1.0);
+	XPLMSetGraphicsState(0, 1, 0, 0, 1, 0, 0);
+
+
+	for( auto p: XPHost::m_vecPlugins ){
+		if( ! p->m_plugin_is_enabled ){
+			continue;
+		}
+
+		for( auto dev: p->m_vecAvionicsHost ){
+			if( ! dev->m_popup_visible ){
+				continue;
+			}
+			auto p_ctx = PluginContextGuard( p );
+
+			int w = dev->m_composite_fbo->m_width;
+			int h = dev->m_composite_fbo->m_height;
+
+			if( w > 320 ){
+				w = 320;
+			}
+
+			if( h > 240 ){
+				h = 240;
+			}
+
+			int tex = dev->m_composite_fbo->m_tex;
+			glPushMatrix();
+				glTranslatef( x, 20, 0 );
+
+				// This is close to what x-plane does but it looks like ass.
+//				glEnable(GL_BLEND);
+//				glBlendFunc(GL_ONE, GL_ONE); // Source + Destination
+
+				// This is nicer to look at, match xp later.
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+				lam_drawTexturedQuad(
+						(float)w,
+						(float)h,
+						tex );
+			glPopMatrix();
+
+			x += w + 20;
+
+		}
+
+	}
+
+	// end draw avionics device textures
+
+
+
+
+
 
 	// 1. Define the phases of interest in the desired execution order
 	static const std::vector<XPLMDrawingPhase> phases = {

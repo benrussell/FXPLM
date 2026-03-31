@@ -140,10 +140,9 @@ void AvionicsHost::draw_bezel(){
 			XPLMAvionicsBezelCallback_f cb_f;
 			cb_f = m_params->bezelDrawCallback;
 
-			//FIXME: ambient light val
-			float fAmbientR = 0.5f;
-			float fAmbientG = 0.5f;
-			float fAmbientB = 0.5f;
+			float fAmbientR = m_bezel_ambient_color[0];
+			float fAmbientG = m_bezel_ambient_color[1];
+			float fAmbientB = m_bezel_ambient_color[2];
 
 			cb_f(
 					fAmbientR, fAmbientG, fAmbientB,

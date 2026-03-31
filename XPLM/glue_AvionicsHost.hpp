@@ -38,25 +38,21 @@ public:
 
 	XPLMCreateAvionics_t* m_params;
 
-//	// fbo handle
-//	GLuint m_fbo=0;
-//	GLuint m_rbo=0;
-//
-//	int m_width=64;
-//	int m_height=64;
-//
-//	GLuint m_tex=0;
-
 	std::string m_deviceName;
 	std::string m_deviceId;
-
-//	float m_FboClearColorRGBA[4]={0.5, 0.0, 0.5, 1.0};
 
 	gz_fbo* m_screen_fbo;
 	gz_fbo* m_bezel_fbo;
 	gz_fbo* m_composite_fbo;
 
+	float m_bezel_ambient_color[4] = {0.5f, 0.5f, 0.5f, 1.f};
+
+	bool m_popup_visible=false;
+	bool m_wants_keyboard=false;
+
 	//gz::shader m_shader;
+
+
 
 
 	explicit AvionicsHost( XPLMCreateAvionics_t* p );
@@ -69,8 +65,6 @@ public:
 	void bake();
 
 
-
-
 	double cost();
 	double cost_screen();
 	double cost_bezel();
@@ -78,8 +72,6 @@ public:
 
 
 private:
-	//void draw_triangle_avhost();
-
 
 	//profiling timer.
 	double m_bakeStart_Screen=0;
@@ -89,7 +81,6 @@ private:
 	double m_bakeStart_Composite=0;
 	double m_bakeStop_Composite=0;
 	Timer m_timer;
-
 
 };
 

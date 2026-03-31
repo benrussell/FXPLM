@@ -268,7 +268,7 @@ XPLM_API void XPLMGetScreenBoundsGlobal(
 );
 
 
-XPLM_API void XPLMCreateAvionicsEx(
+XPLM_API XPLMAvionicsID XPLMCreateAvionicsEx(
         void *params
 );
 

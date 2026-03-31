@@ -38,7 +38,7 @@
 #include "PluginContextGuard.h"
 
 
-extern AvionicsHost* dev;
+//extern AvionicsHost* dev;
 
 
 
@@ -306,7 +306,7 @@ XPLM_API void       XPLMDestroyAvionics(
 }
 
 
-XPLM_API void XPLMCreateAvionicsEx( void* params ){
+XPLM_API XPLMAvionicsID XPLMCreateAvionicsEx( void* params ){
 	FXPLM_DebugLogHeader("XPLMCreateAvionicsEx");
 
     auto p = (XPLMCreateAvionics_t*)params;
@@ -321,6 +321,10 @@ XPLM_API void XPLMCreateAvionicsEx( void* params ){
         auto av_host = new AvionicsHost{p};
         global_target_plugin->m_vecAvionicsHost.push_back( av_host );
 
+        std::cout << " ret:" << (void*)av_host << "\n";
+
+        return av_host;
+
     }else{
         throw std::runtime_error("target plugin is nullptr");
     }
@@ -333,17 +337,29 @@ XPLM_API void XPLMCreateAvionicsEx( void* params ){
 XPLM_API void       XPLMSetAvionicsPopupVisible(
 		XPLMAvionicsID       inHandle,
 		int                  inVisible){
-	FXPLM_DebugLogHeader("NOP/ XPLMSetAvionicsPopupVisible"); //FIXME:
+	FXPLM_DebugLogHeader("XPLMSetAvionicsPopupVisible"); //FIXME:
 	std::cout << " handle:" << inHandle;
 	std::cout << " visible:" << inVisible << "\n";
+
+
+	auto dev = (AvionicsHost*)inHandle;
+	dev->m_popup_visible = (bool)inVisible;
+
+	std::cout << " dev_name:" << dev->m_deviceName << "\n";
+
 }
 
 
 XPLM_API void       XPLMTakeAvionicsKeyboardFocus(
 		XPLMAvionicsID       inHandle){
-	FXPLM_DebugLogHeader("NOP/ XPLMTakeAvionicsKeyboardFocus"); //FIXME:
+	FXPLM_DebugLogHeader("DEV/ XPLMTakeAvionicsKeyboardFocus"); //FIXME:
 	std::cout << " handle:" << inHandle << "\n";
 
+
+	//FIXME: iterate all avionics host instances and expire flag
+
+	auto dev = (AvionicsHost*)inHandle;
+	dev->m_wants_keyboard = true;
 
 }
 
