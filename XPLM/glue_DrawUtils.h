@@ -22,6 +22,43 @@
 #ifndef XPLM_GLUE_DRAWUTILS_H
 #define XPLM_GLUE_DRAWUTILS_H
 
+#include <GL/glew.h>
+
+
+
+
+
+auto lam_drawTexturedQuad = [](float w, float h, GLuint tex_id) {
+
+	// Bind the texture
+	glBindTexture(GL_TEXTURE_2D, tex_id);
+
+	// Draw the quad
+	glBegin(GL_QUADS);
+
+	// Bottom-left corner
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex2f(0.0f, 0.0f);
+
+	// Bottom-right corner
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex2f(w, 0.0f);
+
+	// Top-right corner
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex2f(w, h);
+
+	// Top-left corner
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex2f(0.0f, h);
+
+	glEnd();
+
+};
+
+
+
+
 
 class glue_DrawUtils {
 
