@@ -30,6 +30,19 @@
 
 auto lam_drawTexturedQuad = [](float w, float h, GLuint tex_id) {
 
+	glEnable(GL_TEXTURE_2D);
+
+	//glDisable(GL_COLOR_MATERIAL);
+	//glDisable(GL_LIGHTING);
+	//glDisable(GL_FRAMEBUFFER_SRGB);
+	//glDisableClientState(GL_COLOR_ARRAY);
+	//glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+//	glColor4f(0.5, 0.5, 0.0, 1.0);
+
+//	glEnable(GL_BLEND);
+//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	// Bind the texture
 	glBindTexture(GL_TEXTURE_2D, tex_id);
 
@@ -53,7 +66,15 @@ auto lam_drawTexturedQuad = [](float w, float h, GLuint tex_id) {
 	glVertex2f(0.0f, h);
 
 	glEnd();
+#if 0
+	// Unbind the texture
+	glBindTexture(GL_TEXTURE_2D, 0);
 
+	glDisable(GL_BLEND);
+
+	// Disable 2D texture
+	glDisable(GL_TEXTURE_2D);
+#endif
 };
 
 

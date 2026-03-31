@@ -28,6 +28,9 @@
 #include <gz_shader.h>
 
 
+#include "glue_DrawUtils.h"
+
+
 AvionicsHost::AvionicsHost( XPLMCreateAvionics_t* p ){
 
 	std::cout << "AvionicsHost ctor\n";
@@ -171,13 +174,21 @@ void AvionicsHost::draw_screen(){
 
 }
 
+#include "XPLMGraphics.h"
 
 void AvionicsHost::draw_composite(){
 	// draw two textured quads.
 
+	glColor4f(1.0, 1.0, 1.0, 1.0);
+	//XPLMSetGraphicsState(0, 1, 0, 0, 0, 0, 0);
+
+//	glEnable(GL_BLEND);
+//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-	auto lam_drawTexturedQuad = [](float w, float h, GLuint tex_id) {
+
+#if 0
+	auto lam_drawTexturedQuad2 = [](float w, float h, GLuint tex_id) {
 		// Enable 2D texture
 		glEnable(GL_TEXTURE_2D);
 
@@ -224,10 +235,10 @@ void AvionicsHost::draw_composite(){
 		// Disable 2D texture
 		glDisable(GL_TEXTURE_2D);
 	};
+#endif
 
-	// const float sz = 512;
 
-//		m_composite_fbo->m_width
+
 
 	//if there's no alpha hole then screen_first is pointless.
 	bool screen_first = true;
@@ -243,6 +254,10 @@ void AvionicsHost::draw_composite(){
 			lam_drawTexturedQuad(m_screen_fbo->m_width, m_screen_fbo->m_height, m_screen_fbo->m_tex );
 		glPopMatrix();
 		//m_shader.disable();
+
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		lam_drawTexturedQuad(m_bezel_fbo->m_width, m_bezel_fbo->m_height, m_bezel_fbo->m_tex );
 
@@ -276,6 +291,7 @@ void AvionicsHost::bake(){
 
 	//we need a third, to do composition. Ugh.
 	m_bakeStart_Composite = m_timer.getElapsedTimeInMilliSec();
+		//m_composite_fbo->push_fbo(false);
 		m_composite_fbo->push_fbo();
 			draw_composite();
 		m_composite_fbo->pop_fbo();
