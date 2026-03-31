@@ -40,6 +40,8 @@
 
 #include "glue_WindowEx.h"
 
+#include "glue_Menus.h"
+
 // #include "../third_party/timer/src/Timer.h"
 
 
@@ -66,6 +68,8 @@ public:
 
 	std::vector<AvionicsHost*> m_vecAvionicsHost;
 	std::vector<DrawCallbackHost*> m_vecDrawCallbackHost;
+
+	std::vector<glue_MenuNode*> m_vecMenus;
 
 	struct cb_params_t;
 	std::vector<cb_params_t> m_vecFlightLoops; //FIXME should be *

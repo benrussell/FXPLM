@@ -58,6 +58,7 @@ XPLMMenuID XPLMCreateMenu(
 	auto target_mnu = (glue_MenuNode*)inParentMenu;
 
 	auto new_mnu = new glue_MenuNode();
+	global_target_plugin->m_vecMenus.push_back(new_mnu);
 	new_mnu->m_sLabel = inName;
 	new_mnu->m_parent_index = inParentItem;
 	new_mnu->m_fn_click_handler = inHandler;
@@ -90,6 +91,7 @@ int XPLMAppendMenuItem(
 	auto target_mnu = (glue_MenuNode*)inMenu;
 
 	auto new_mnu = new glue_MenuNode();
+	global_target_plugin->m_vecMenus.push_back(new_mnu);
 	new_mnu->m_sLabel = inItemName;
 	new_mnu->m_parent_index = 0; //FIXME: parent index??
 	new_mnu->m_fn_click_handler = nullptr; //FIXME: we can have a void* to a parent item that has the click handler?
@@ -133,12 +135,14 @@ XPLM_API int        XPLMAppendMenuItemWithCommand(
 	auto target_mnu = (glue_MenuNode*)inMenu;
 
 	auto new_mnu = new glue_MenuNode();
+	global_target_plugin->m_vecMenus.push_back(new_mnu);
 	new_mnu->m_sLabel = inItemName;
 	new_mnu->m_parent_index = 0; //FIXME: parent index??
 	new_mnu->m_fn_click_handler = nullptr; //FIXME: we can have a void* to a parent item that has the click handler?
 	//new_mnu->m_refcon = inItemRef; //FIXME: replace with cmd*
 
 	new_mnu->m_parentMenuNode = inMenu;
+	new_mnu->m_cmd_handler = inCommandToExecute;
 
 	target_mnu->m_vecSubNodes.push_back(new_mnu);
 

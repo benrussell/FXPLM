@@ -47,6 +47,8 @@ public:
 	XPLMMenuHandler_f m_fn_click_handler=nullptr;
 	//some menus map directly to a command.
 
+	void* m_cmd_handler=nullptr;
+
 	void* m_refcon=nullptr;
 
 	int m_parent_index=0;
