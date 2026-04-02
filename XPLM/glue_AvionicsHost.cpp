@@ -31,7 +31,7 @@
 #include "glue_DrawUtils.h"
 
 
-AvionicsHost::AvionicsHost( XPLMCreateAvionics_t* p ){
+AvionicsHost::AvionicsHost( XPLMCreateAvionics_t* p, Plugin* parent ){
 
 	std::cout << "AvionicsHost ctor\n";
 
@@ -61,6 +61,8 @@ AvionicsHost::AvionicsHost( XPLMCreateAvionics_t* p ){
 
 	m_deviceName = std::string(p->deviceName);
 	m_deviceId = std::string(p->deviceID);
+
+	m_parentPlugin = parent;
 
 
 

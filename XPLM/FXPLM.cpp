@@ -898,3 +898,12 @@ void FXPLM_LoadTexture( const std::string& filename, int tex_id ){
 
 	stbi_image_free(data);
 } //tex::load(fname,tex_id)
+
+
+
+
+XPLM_API void FXPLM_SetActivePlugin( void* plugin ){
+	std::cout << "CODE SMELL: FXPLM_SetActivePlugin\n";
+	global_target_plugin = (Plugin*)plugin;
+
+}

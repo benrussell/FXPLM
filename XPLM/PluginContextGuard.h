@@ -5,6 +5,8 @@
 #ifndef PLUGINCONTEXTGUARD_H
 #define PLUGINCONTEXTGUARD_H
 
+#include "glue_Plugin.hpp"
+
 class PluginContextGuard {
 private:
     Plugin* plugin;

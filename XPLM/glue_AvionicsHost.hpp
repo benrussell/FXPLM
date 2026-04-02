@@ -52,10 +52,12 @@ public:
 
 	//gz::shader m_shader;
 
+	Plugin* m_parentPlugin;
 
 
 
-	explicit AvionicsHost( XPLMCreateAvionics_t* p );
+
+	explicit AvionicsHost( XPLMCreateAvionics_t* p, Plugin* parent );
 	~AvionicsHost();
 
 	void draw_bezel();

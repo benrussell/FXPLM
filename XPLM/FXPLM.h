@@ -121,6 +121,10 @@ XPLM_API void FXPLM_LoadTexture( const std::string& filename, int tex_id );
 
 
 
+XPLM_API void FXPLM_SetActivePlugin( void* plugin );
+
+
+
 
 // README: DO NOT ANNOTATE WITH XPLM_API or other decorators or the link will break.
 void __XPLMValidateThreadSafety(const char* functionName,

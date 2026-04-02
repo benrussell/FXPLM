@@ -318,7 +318,7 @@ XPLM_API XPLMAvionicsID XPLMCreateAvionicsEx( void* params ){
     std::cout<<" offset x,y:" << p->screenOffsetX << ", " << p->screenOffsetY << "\n";
 
     if( global_target_plugin ){
-        auto av_host = new AvionicsHost{p};
+        auto av_host = new AvionicsHost{p, global_target_plugin};
         global_target_plugin->m_vecAvionicsHost.push_back( av_host );
 
         std::cout << " ret:" << (void*)av_host << "\n";
