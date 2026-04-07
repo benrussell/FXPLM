@@ -355,13 +355,46 @@ XPLM_API void       XPLMTakeAvionicsKeyboardFocus(
 	FXPLM_DebugLogHeader("DEV/ XPLMTakeAvionicsKeyboardFocus"); //FIXME:
 	std::cout << " handle:" << inHandle << "\n";
 
-
 	//FIXME: iterate all avionics host instances and expire flag
 
 	auto dev = (AvionicsHost*)inHandle;
 	dev->m_wants_keyboard = true;
 
 }
+
+
+XPLM_API int       XPLMHasAvionicsKeyboardFocus(
+		XPLMAvionicsID       inHandle){
+	FXPLM_DebugLogHeader("DEV/ XPLMHasAvionicsKeyboardFocus"); //FIXME:
+	std::cout << " handle:" << inHandle << "\n";
+
+	auto dev = (AvionicsHost*)inHandle;
+	return (int)dev->m_wants_keyboard;
+
+}
+
+
+
+
+
+XPLM_API int       XPLMIsAvionicsPoppedOut(
+	XPLMAvionicsID       inHandle){
+
+		FXPLM_DebugLogHeader("NOP/ XPLMIsAvionicsPoppedOut"); //FIXME:
+		std::cout << " handle:" << inHandle << "\n";
+
+		return 0;
+}
+
+XPLM_API void       XPLMPopOutAvionics(
+	XPLMAvionicsID       inHandle){
+
+		FXPLM_DebugLogHeader("NOP/ XPLMPopOutAvionics"); //FIXME:
+		std::cout << " handle:" << inHandle << "\n";
+
+}
+
+
 
 
 
