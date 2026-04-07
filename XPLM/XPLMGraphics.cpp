@@ -219,8 +219,8 @@ XPLM_API void       XPLMDrawString(
 	};
 
 	// FIX 2: Enable Blending (was commented out)
-	// glEnable(GL_BLEND);
-	// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	 glEnable(GL_BLEND);
+	 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.5f); // Adjust 0.5f to control sharpness
