@@ -252,7 +252,7 @@ void AvionicsHost::draw_composite(){
 
 		glPushMatrix();
 			glTranslatef( m_params->screenOffsetX, m_params->screenOffsetY, 0 );
-			lam_drawTexturedQuad(m_screen_fbo->m_width, m_screen_fbo->m_height, m_screen_fbo->m_tex );
+			glue_DrawUtils::drawTexturedQuad(m_screen_fbo->m_width, m_screen_fbo->m_height, m_screen_fbo->m_tex );
 		glPopMatrix();
 		//m_shader.disable();
 
@@ -260,14 +260,14 @@ void AvionicsHost::draw_composite(){
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		lam_drawTexturedQuad(m_bezel_fbo->m_width, m_bezel_fbo->m_height, m_bezel_fbo->m_tex );
+		glue_DrawUtils::drawTexturedQuad(m_bezel_fbo->m_width, m_bezel_fbo->m_height, m_bezel_fbo->m_tex );
 
 
 	}else{
-		lam_drawTexturedQuad(m_bezel_fbo->m_width, m_bezel_fbo->m_height, m_bezel_fbo->m_tex );
+		glue_DrawUtils::drawTexturedQuad(m_bezel_fbo->m_width, m_bezel_fbo->m_height, m_bezel_fbo->m_tex );
 
 		glTranslatef( m_params->screenOffsetX, m_params->screenOffsetY, 0 );
-		lam_drawTexturedQuad(m_screen_fbo->m_width, m_screen_fbo->m_height, m_screen_fbo->m_tex );
+		glue_DrawUtils::drawTexturedQuad(m_screen_fbo->m_width, m_screen_fbo->m_height, m_screen_fbo->m_tex );
 	}
 	glPopMatrix();
 

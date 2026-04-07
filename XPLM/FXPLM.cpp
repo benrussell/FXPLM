@@ -716,7 +716,7 @@ XPLM_API int FXPLM_DrawCBS() {
 				glEnable(GL_BLEND);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-				lam_drawTexturedQuad(
+				glue_DrawUtils::drawTexturedQuad(
 						(float)w,
 						(float)h,
 						tex );
