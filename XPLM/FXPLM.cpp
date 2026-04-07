@@ -901,7 +901,7 @@ void FXPLM_LoadTexture( const std::string& filename, int tex_id ){
 
 
 
-
+#warning this is a hack - FXPLM_SetActivePlugin(void*)
 XPLM_API void FXPLM_SetActivePlugin( void* plugin ){
 	std::cout << "CODE SMELL: FXPLM_SetActivePlugin\n";
 	global_target_plugin = (Plugin*)plugin;
